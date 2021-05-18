@@ -1,34 +1,62 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-    },
-    "variables": {
-      "apimName":"PWS-SYD-APIM-CICD",
-      "publisherEmail":"paul.smithdale@insight.com",
-      "publisherName":"Paul Smithdale",
-      "skuName":"Developer"
-    },
-    "resources": [
-        {
-            "name": "[variables('apimName')]",
-            "type": "Microsoft.ApiManagement/service",
-            "apiVersion": "2019-01-01",
-            "tags": {},
-            "properties": {
-              "notificationSenderEmail": "[variables('publisherEmail')]",
-              "publisherEmail": "[variables('publisherEmail')]",
-              "publisherName": "[variables('publisherName')]"
-            },
-            "sku": {
-              "name": "[variables('skuName')]"
-            },
-            "identity": {
-              "type": "SystemAssigned"
-            },
-            "location": "[resourceGroup().location]"
-          }
-    ],
-    "outputs": {
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "type": "string"
     }
+  },
+  "variables": {
+    "apimName": "[concat('PWS-SYD-APIM-',coalesce(parameters('environment'), ''),'CICD')]",
+    "storageName": "[concat('pwssydsta',coalesce(parameters('environment'), ''),'cicd')]",
+    "publisherEmail": "paul.smithdale@insight.com",
+    "publisherName": "Paul Smithdale",
+    "skuName": "Developer",
+    "containerName": "templatedeployment"
+  },
+  "resources": [
+    {
+      "name": "[variables('apimName')]",
+      "type": "Microsoft.ApiManagement/service",
+      "apiVersion": "2019-01-01",
+      "tags": {},
+      "properties": {
+        "notificationSenderEmail": "[variables('publisherEmail')]",
+        "publisherEmail": "[variables('publisherEmail')]",
+        "publisherName": "[variables('publisherName')]"
+      },
+      "sku": {
+        "name": "[variables('skuName')]"
+      },
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "location": "[resourceGroup().location]"
+    },
+    {
+      "name": "[variables('storageName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2021-02-01",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "location": "[resourceGroup().location]",
+      "resources": [
+        {
+          "type": "blobServices/containers",
+          "apiVersion": "2019-06-01",
+          "name": "[concat('default/', variables('containerName'))]",
+          "properties": {
+            "publicAccess": "None"
+          },
+          "dependsOn": [
+            "[variables('storageName')]"
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": {
   }
+}
