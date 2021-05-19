@@ -1,22 +1,70 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {},
-    "variables": {},
-    "resources": [
-      {
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "parametersUrl": {
+      "type": "string"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
-      "name": "linkedTemplate",
+      "name": "namedValues",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri":"https://mystorageaccount.blob.core.windows.net/AzureTemplates/newStorageAccount.json",
-          "contentVersion":"1.0.0.0"
+          "relativePath": "PWS-SYD-APIM-CICD-namedValues.template.json"
+        },
+        "parametersLink": {
+          "uri": "[parameters('parametersUrl')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "api",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "PWS-SYD-APIM-CICD-Petstore-api.template.json"
+        },
+        "parametersLink": {
+          "uri": "[parameters('parametersUrl')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "products",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "PWS-SYD-APIM-CICD-products.template.json"
+        },
+        "parametersLink": {
+          "uri": "[parameters('parametersUrl')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "tags",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "PWS-SYD-APIM-CICD-tags.template.json"
+        },
+        "parametersLink": {
+          "uri": "[parameters('parametersUrl')]"
         }
       }
     }
-    ],
-    "outputs": {
-    }
+  ],
+  "outputs": {
   }
+}

@@ -29,4 +29,5 @@ PR
 - [APIM ARM Template](https://docs.microsoft.com/en-us/azure/templates/microsoft.apimanagement/2019-12-01/service?tabs=json)
 - [APIM DevOps Resource Kit](https://github.com/Azure/azure-api-management-devops-resource-kit)
 - [APIM RBAC](https://techcommunity.microsoft.com/t5/azure-paas-blog/usage-of-custom-rbac-roles-in-azure-api-management/ba-p/1560571)
+- [Deploy Linked Templates with a SAS Token](https://github.com/MicrosoftDocs/azure-docs/blob/master/articles/azure-resource-manager/templates/linked-templates.md)
 - [Securing an external template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/linked-templates?tabs=azure-powershell#securing-an-external-template)
