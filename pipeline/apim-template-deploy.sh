@@ -1,24 +1,19 @@
 #!/bin/bash
 
-resourceGroup=$1
-apimName=$2
-apiname=$3
-templatedirectory=$4
-
-pathname="$apiname-$EPOCHSECONDS"
+pathname="$APINAME-$EPOCHSECONDS"
 container="templatedeployment"
 storageAccount="pwssydstacicd"
 
 
 echo "UPLOAD"
 connection=$(az storage account show-connection-string \
-    --resource-group $resourceGroup \
+    --resource-group $RESOURCEGROUP \
     --name $storageAccount \
     --query connectionString)
 
 output=$(az storage blob upload-batch \
     --destination $container \
-    --source "../api/$apiname/" \
+    --source "../api/$APINAME/" \
     --destination-path $pathname \
     --connection-string $connection)
 
@@ -37,12 +32,12 @@ fi
 
 az deployment group create \
   --name pathname \
-  --resource-group $resourceGroup \
+  --resource-group $RESOURCEGROUP \
   --template-uri "$rootFileUri/api-master-template.json" \
   --query-string $sas \
-  --parameters @$templatedirectory/$apiname-parameters.json \
+  --parameters @$TEMPLATEDIRECTORY/$APINAME-parameters.json \
   --parameters "PolicyXMLBaseUrl=$rootFileUri/policies" \
   --parameters "sasToken=$sas" \
   --parameters "LinkedTemplatesBaseUrl=dummy" \
-  --parameters "ApimServiceName=$apimName" \
+  --parameters "ApimServiceName=$DESTAPIM" \
   --parameters "includeProducts=$INCLUDEPRODUCTS"

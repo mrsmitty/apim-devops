@@ -19,4 +19,4 @@ jobs:
       azureSubscription: sp-apim-ado
       scriptType: bash
       scriptLocation: scriptPath
-      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/deploy.sh
+      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-template-deploy.sh
