@@ -3,6 +3,7 @@
 resourceGroup=$1
 apimName=$2
 apiname=$3
+templatedirectory=$4
 
 pathname="$apiname-$EPOCHSECONDS"
 container="templatedeployment"
@@ -39,7 +40,7 @@ az deployment group create \
   --resource-group $resourceGroup \
   --template-uri "$rootFileUri/api-master-template.json" \
   --query-string $sas \
-  --parameters @/workspaces/apim-devops/api/$apiname/$apiname-parameters.json \
+  --parameters @$templatedirectory/$apiname-parameters.json \
   --parameters "PolicyXMLBaseUrl=$rootFileUri/policies" \
   --parameters "sasToken=$sas" \
   --parameters "LinkedTemplatesBaseUrl=dummy" \
