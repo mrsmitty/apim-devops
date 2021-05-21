@@ -16,7 +16,6 @@ output=$(az storage blob upload-batch \
     --destination $container \
     --source "../api/petstore/" \
     --destination-path $pathname \
-    --pattern "*.json" \
     --connection-string $connection)
 
 rootFileUri="https://$storageAccount.blob.core.windows.net/$container/$pathname"
@@ -29,6 +28,8 @@ sas=`az storage container generate-sas -n $container --https-only --permissions 
 az deployment group create \
   --name pathname \
   --resource-group $resourceGroup \
-  --template-uri "$rootFileUri/master.json" \
-  --parameters "parametersUrl=$rootFileUri/PWS-SYD-APIM-CICD-parameters.json" \
-  --query-string $sas
+  --template-uri "$rootFileUri/petstore-master.template.json" \
+  --query-string $sas \
+  --parameters @/workspaces/apim-devops/api/petstore/petstore-parameters.json \
+  --parameters "PolicyXMLBaseUrl=$rootFileUri/policies" \
+  --parameters "sasToken=$sas"

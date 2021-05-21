@@ -5,8 +5,14 @@
     "ApimServiceName": {
       "type": "string"
     },
+    "PolicyXMLBaseUrl": {
+      "type": "string"
+    },
     "serviceUrl": {
       "type": "object"
+    },
+    "sasToken":{
+      "type": "string"
     }
   },
   "resources": [
@@ -24,7 +30,7 @@
         "isCurrent": true,
         "subscriptionRequired": true,
         "displayName": "Petstore",
-        "serviceUrl": "[parameters('serviceUrl').Petstore]",
+        "serviceUrl": "[parameters('serviceUrl').petstore]",
         "path": "",
         "protocols": [
           "http",
@@ -43,11 +49,11 @@
           "value": "{\"ApiResponse\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"integer\",\"format\":\"int32\"},\"type\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"}}},\"Category\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"name\":{\"type\":\"string\"}},\"xml\":{\"name\":\"Category\"}},\"Pet\":{\"type\":\"object\",\"required\":[\"name\",\"photoUrls\"],\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"category\":{\"$ref\":\"#/definitions/Category\"},\"name\":{\"type\":\"string\",\"example\":\"doggie\"},\"photoUrls\":{\"type\":\"array\",\"xml\":{\"wrapped\":true},\"items\":{\"type\":\"string\",\"xml\":{\"name\":\"photoUrl\"}}},\"tags\":{\"type\":\"array\",\"xml\":{\"wrapped\":true},\"items\":{\"xml\":{\"name\":\"tag\"},\"$ref\":\"#/definitions/Tag\"}},\"status\":{\"type\":\"string\",\"description\":\"pet status in the store\",\"enum\":[\"available\",\"pending\",\"sold\"]}},\"xml\":{\"name\":\"Pet\"}},\"Tag\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"name\":{\"type\":\"string\"}},\"xml\":{\"name\":\"Tag\"}},\"Order\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"petId\":{\"type\":\"integer\",\"format\":\"int64\"},\"quantity\":{\"type\":\"integer\",\"format\":\"int32\"},\"shipDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"status\":{\"type\":\"string\",\"description\":\"Order Status\",\"enum\":[\"placed\",\"approved\",\"delivered\"]},\"complete\":{\"type\":\"boolean\"}},\"xml\":{\"name\":\"Order\"}},\"User\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"username\":{\"type\":\"string\"},\"firstName\":{\"type\":\"string\"},\"lastName\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"},\"password\":{\"type\":\"string\"},\"phone\":{\"type\":\"string\"},\"userStatus\":{\"type\":\"integer\",\"format\":\"int32\",\"description\":\"User Status\"}},\"xml\":{\"name\":\"User\"}},\"PetId\":{\"format\":\"int64\",\"x-apim-inline\":true},\"Status\":{\"items\":{\"type\":\"string\",\"enum\":[\"available\",\"pending\",\"sold\"],\"default\":\"available\"},\"x-apim-inline\":true},\"PetArray\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Pet\"}},\"Tags\":{\"items\":{\"type\":\"string\"},\"x-apim-inline\":true},\"StoreInventoryGet200ApplicationJsonResponse\":{\"type\":\"object\",\"additionalProperties\":{\"type\":\"integer\",\"format\":\"int32\"}},\"OrderId\":{\"format\":\"int64\",\"maximum\":10,\"minimum\":1,\"x-apim-inline\":true},\"OrderId-1\":{\"format\":\"int64\",\"minimum\":1,\"x-apim-inline\":true},\"UserArray\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/User\"}},\"X-Expires-After\":{\"format\":\"date-time\",\"x-apim-inline\":true},\"X-Rate-Limit\":{\"format\":\"int32\",\"x-apim-inline\":true},\"UserLoginGet200ApplicationJsonResponse\":{\"type\":\"string\"},\"UserLoginGet200ApplicationXmlResponse\":{\"type\":\"string\"}}"
         }
       },
-      "name": "[concat(parameters('ApimServiceName'), '/Petstore/60a34871217d201190c0951c')]",
+      "name": "[concat(parameters('ApimServiceName'), '/petstore/60a34871217d201190c0951c')]",
       "type": "Microsoft.ApiManagement/service/apis/schemas",
       "apiVersion": "2019-01-01",
       "dependsOn": [
-        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'Petstore')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]"
       ]
     },
     {
@@ -1445,14 +1451,14 @@
     },
     {
       "properties": {
-        "value": "<!--\n    IMPORTANT:\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\n    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.\n    - To remove a policy, delete the corresponding policy statement from the policy document.\n    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\n    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.\n    - Policies are applied in the order of their appearance, from the top down.\n    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.\n-->\r\n<policies>\r\n\t<inbound>\r\n\t\t<base />\r\n\t\t<set-header name=\"api_key\" exists-action=\"append\">\r\n\t\t\t<value>{{api-key}}</value>\r\n\t\t</set-header>\r\n\t</inbound>\r\n\t<backend>\r\n\t\t<base />\r\n\t</backend>\r\n\t<outbound>\r\n\t\t<base />\r\n\t</outbound>\r\n\t<on-error>\r\n\t\t<base />\r\n\t</on-error>\r\n</policies>",
-        "format": "rawxml"
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/petstore-apiPolicy.xml?', parameters('sasToken'))]",
+        "format": "rawxml-link"
       },
       "name": "[concat(parameters('ApimServiceName'), '/petstore/policy')]",
       "type": "Microsoft.ApiManagement/service/apis/policies",
       "apiVersion": "2019-01-01",
       "dependsOn": [
-        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'Petstore')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]"
       ]
     },
     {

@@ -5,9 +5,15 @@
     "ApimServiceName": {
       "value": "PWS-SYD-DEV-ARG-CICD"
     },
+    "LinkedTemplatesBaseUrl": {
+      "value": "https://dummy.blob.core.windows.net/"
+    },
+    "PolicyXMLBaseUrl": {
+      "value": "https://dummy.blob.core.windows.net/"
+    },
     "serviceUrl": {
       "value": {
-        "messagingservice": null
+        "PetStoreV3": "https://petstore3.swagger.io/api/v3"
       }
     },
     "NamedValues": {

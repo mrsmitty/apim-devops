@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "value": "PWS-SYD-APIM-DEVCICD"
+    },
+    "LinkedTemplatesBaseUrl": {
+      "value": "https://pwssydstacicd.blob.core.windows.net/"
+    },
+    "PolicyXMLBaseUrl": {
+      "value": "https://pwssydstacicd.blob.core.windows.net/"
+    },
+    "serviceUrl": {
+      "value": {
+        "petstore": "https://petstore.test.swagger.io/v2"
+      }
+    },
+    "NamedValues": {
+      "value": {
+        "apikey": "1234"
+      }
+    }
+  },
+  "resources": []
+}

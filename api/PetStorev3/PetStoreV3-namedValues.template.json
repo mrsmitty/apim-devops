@@ -5,6 +5,9 @@
     "ApimServiceName": {
       "type": "string"
     },
+    "PolicyXMLBaseUrl": {
+      "type": "string"
+    },
     "NamedValues": {
       "type": "object"
     }
