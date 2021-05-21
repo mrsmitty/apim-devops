@@ -10,12 +10,15 @@
     },
     "serviceUrl": {
       "type": "object"
+    },
+    "sasToken": {
+      "type": "string"
     }
   },
   "resources": [
     {
       "properties": {
-        "description": "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about\nSwagger at [http://swagger.io](http://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!\nYou can now help us improve the API whether it's by making changes to the definition itself or to the code.\nThat way, with time, we can improve the API in general, and expose some of the new features in OAS3.\n\nSome useful links:\n- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)\n- [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)",
+        "description": "This is a sample Pet Store Server based on the OpenAPI 3.0 specification. You can find out more about\nSwagger at [http://swagger.io](http://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!\nYou can now help us improve the API whether it's by making changes to the definition itself or to the code.\nThat way, with time, we can improve the API in general, and expose some of the new features in OAS3.\n\nSome useful links:\n- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)\n- [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)",
         "authenticationSettings": {
           "subscriptionKeyRequired": false
         },
@@ -50,12 +53,12 @@
                   "id": {
                     "type": "integer",
                     "format": "int64",
-                    "example": 10.0
+                    "example": 10
                   },
                   "petId": {
                     "type": "integer",
                     "format": "int64",
-                    "example": 198772.0
+                    "example": 198772
                   },
                   "quantity": {
                     "type": "integer",
@@ -90,7 +93,7 @@
                   "id": {
                     "type": "integer",
                     "format": "int64",
-                    "example": 100000.0
+                    "example": 100000
                   },
                   "username": {
                     "type": "string",
@@ -141,7 +144,7 @@
                   "id": {
                     "type": "integer",
                     "format": "int64",
-                    "example": 1.0
+                    "example": 1
                   },
                   "name": {
                     "type": "string",
@@ -158,7 +161,7 @@
                   "id": {
                     "type": "integer",
                     "format": "int64",
-                    "example": 10.0
+                    "example": 10
                   },
                   "username": {
                     "type": "string",
@@ -220,7 +223,7 @@
                   "id": {
                     "type": "integer",
                     "format": "int64",
-                    "example": 10.0
+                    "example": 10
                   },
                   "name": {
                     "type": "string",
@@ -407,7 +410,7 @@
                   "id": {
                     "type": "integer",
                     "format": "int64",
-                    "example": 10.0
+                    "example": 10
                   },
                   "name": {
                     "type": "string",
@@ -461,7 +464,7 @@
                   "id": {
                     "type": "integer",
                     "format": "int64",
-                    "example": 10.0
+                    "example": 10
                   },
                   "name": {
                     "type": "string",
@@ -1659,6 +1662,27 @@
     {
       "properties": {
         "templateParameters": [],
+        "description": "",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [],
+        "displayName": "Stray Cats",
+        "method": "GET",
+        "urlTemplate": "/straycats"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/petstorev3/stray-cats')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstorev3')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
         "description": "Update an existing pet by Id",
         "request": {
           "description": "Update an existent pet in the store",
@@ -2035,6 +2059,18 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'petstorev3', 'uploadFile')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/PetStoreV3-apiPolicy.xml?', parameters('sasToken'))]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/petstorev3/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'PetStoreV3')]"
       ]
     }
   ]

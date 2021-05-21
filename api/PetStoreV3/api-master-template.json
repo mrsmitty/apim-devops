@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "ApimServiceName": {
@@ -31,6 +31,12 @@
       "metadata": {
         "description": "Named values"
       }
+    },
+    "sasToken": {
+      "type": "string"
+    },
+    "includeProducts":{
+      "type": "bool"
     }
   },
   "resources": [
@@ -38,7 +44,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('LinkedTemplatesBaseUrl'), '/PetStoreV3-namedValues.template.json')]",
+          "relativePath": "PetStoreV3-namedValues.template.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -55,14 +61,15 @@
       },
       "name": "namedValuesTemplate",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2018-05-01",
+      "apiVersion": "2020-10-01",
       "dependsOn": []
     },
     {
+      "condition": "[parameters('includeProducts')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('LinkedTemplatesBaseUrl'), '/PetStoreV3-globalServicePolicy.template.json')]",
+          "relativePath": "PetStoreV3-products.template.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -74,9 +81,9 @@
           }
         }
       },
-      "name": "globalServicePolicyTemplate",
+      "name": "productsTemplate",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2018-05-01",
+      "apiVersion": "2020-10-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'namedValuesTemplate')]"
       ]
@@ -85,7 +92,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('LinkedTemplatesBaseUrl'), '/PetStoreV3-tags.template.json')]",
+          "relativePath": "PetStoreV3-tags.template.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -99,7 +106,7 @@
       },
       "name": "tagTemplate",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2018-05-01",
+      "apiVersion": "2020-10-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'namedValuesTemplate')]"
       ]
@@ -108,7 +115,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('LinkedTemplatesBaseUrl'), '/PetStoreV3-PetStoreV3-api.template.json')]",
+          "relativePath": "PetStoreV3-PetStoreV3-api.template.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -120,15 +127,19 @@
           },
           "serviceUrl": {
             "value": "[parameters('serviceUrl')]"
+          },
+          "sasToken": {
+            "value": "[parameters('sasToken')]"
           }
         }
       },
       "name": "apisTemplate",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2018-05-01",
+      "apiVersion": "2020-10-01",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'namedValuesTemplate')]",
-        "[resourceId('Microsoft.Resources/deployments', 'globalServicePolicyTemplate')]",
+        // "[resourceId('Microsoft.Resources/deployments', 'globalServicePolicyTemplate')]",
+        "[resourceId('Microsoft.Resources/deployments', 'productsTemplate')]",
         "[resourceId('Microsoft.Resources/deployments', 'tagTemplate')]"
       ]
     }

@@ -3,22 +3,19 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "ApimServiceName": {
-      "value": "PWS-SYD-APIM-DEVCICD"
-    },
-    "LinkedTemplatesBaseUrl": {
-      "value": "https://pwssydstacicd.blob.core.windows.net/"
+      "value": "PWS-SYD-DEV-ARG-CICD"
     },
     "PolicyXMLBaseUrl": {
-      "value": "https://pwssydstacicd.blob.core.windows.net/"
+      "value": "https://dummy.blob.core.windows.net/"
     },
     "serviceUrl": {
       "value": {
-        "petstore": "https://petstore.test.swagger.io/v2"
+        "PetStoreV3": null
       }
     },
     "NamedValues": {
       "value": {
-        "apikey": "1234"
+        "apikey": "special-key"
       }
     }
   },

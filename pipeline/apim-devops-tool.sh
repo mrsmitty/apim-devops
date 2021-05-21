@@ -5,15 +5,23 @@ RESOURCEGROUP=$2
 APINAME=$3
 DESTAPIM=$4
 storageAccount="pwssydstacicd"
+STAGINGDIR="/workspaces/apim-devops/api/$APINAME"
+MASTERTEMPLATE="api-master-template.json"
 
-if [[ -d $5 ]]
+if [[ ! -d $STAGINGDIR ]]
 then
-    STAGINGDIR=$5
-else
-    echo "Dest dir not found"
-    exit 1
+    echo "creating directory"
+    mkdir -p $STAGINGDIR
+    
 fi
 
+if [[ ! -f $STAGINGDIR/api-master-template.json ]]
+then
+    echo "copy in master template"
+    cp ../base-template/master.template.json "$STAGINGDIR/$MASTERTEMPLATE"
+    echo "replace name of api template"
+    sed -i "s/<apiname>/$APINAME/g" "$STAGINGDIR/$MASTERTEMPLATE"
+fi
 
 
 
@@ -30,9 +38,12 @@ dotnet ./reskit/Portable/apimtemplate.dll extract \
     --fileFolder $STAGINGDIR \
     --baseFileName $APINAME \
     --destinationApimName $DESTAPIM \
-    --linkedTemplatesBaseUrl $rootFileUri \
     --policyXMLBaseUrl $rootFileUri \
     --apiName $APINAME \
     --paramServiceUrl=true --paramNamedValue=true
 
-    # --splitAPIs "true" \
+echo "Enable Policy file reference for SAS Token"
+APITEMPLATEPATH=$STAGINGDIR/$APINAME-$APINAME-api.template.json
+JSON=$(cat $APITEMPLATEPATH | jq '.parameters += {"sasToken":{"type":"string"}}')
+JSON=$(sed "s/apiPolicy.xml'/apiPolicy.xml?', parameters('sasToken')/" <<< $JSON)
+echo $JSON | jq '.' > $APITEMPLATEPATH

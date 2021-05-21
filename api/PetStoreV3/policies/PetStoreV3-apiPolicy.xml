@@ -13,11 +13,8 @@
 <policies>
 	<inbound>
 		<base />
-		<set-header name="api_key" exists-action="append">
-			<value>{{api-key}}</value>
-		</set-header>
-		<set-header name="test_key" exists-action="append">
-			<value>{{super-key}}</value>
+		<set-header name="Authorization" exists-action="append">
+			<value>^786f9ds76hvjkdle</value>
 		</set-header>
 	</inbound>
 	<backend>
