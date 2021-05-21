@@ -1,5 +1,5 @@
-- jobs:
-  job: deployApim
+jobs:
+- job: deployApim
   pool:
     vmImage: ubuntu-16.04
   steps:
