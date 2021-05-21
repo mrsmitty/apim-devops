@@ -5,20 +5,18 @@
     "ApimServiceName": {
       "type": "string"
     },
-    "NamedValues": {
-      "type": "object"
+    "PolicyXMLBaseUrl": {
+      "type": "string"
     }
   },
   "resources": [
     {
       "properties": {
-        "tags": [],
-        "secret": true,
-        "displayName": "api-key",
-        "value": "[parameters('NamedValues').apikey]"
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/globalServicePolicy.xml')]",
+        "format": "rawxml-link"
       },
-      "name": "[concat(parameters('ApimServiceName'), '/api-key')]",
-      "type": "Microsoft.ApiManagement/service/properties",
+      "name": "[concat(parameters('ApimServiceName'), '/policy')]",
+      "type": "Microsoft.ApiManagement/service/policies",
       "apiVersion": "2019-01-01"
     }
   ]

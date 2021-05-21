@@ -11,9 +11,9 @@ Deploy to another APIM instance
 ```bash
 SOURCEAPIM="PWS-SYD-APIM-CICD"
 RESOURCEGROUP="PWS-SYD-ARG-CICD"
-APINAME="messagingservice"
-DESTAPIM="PWS-SYD-DEV-ARG-CICD"
-OUTDIR="/workspaces/apim-devops/api/messagingservice"
+APINAME="petstore"
+DESTAPIM="PWS-SYD-ARG-DEVCICD"
+OUTDIR="/workspaces/apim-devops/api/petstore"
 ./apim-devops-tool.sh $SOURCEAPIM $RESOURCEGROUP $APINAME $DESTAPIM $OUTDIR
 ```
 
