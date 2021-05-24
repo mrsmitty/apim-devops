@@ -8,6 +8,8 @@ echo "API Template Directory: $TEMPLATE_DIRECTORY"
 
 MASTERTEMPLATE="api-master-template.json"
 
+git branch --show-current
+
 if [[ ! -d $TEMPLATE_DIRECTORY ]]
 then
     echo "**Create Template Directory**"
@@ -50,10 +52,14 @@ echo "- Replace file"
 echo $JSON | jq '.' > $APITEMPLATEPATH
 
 echo "**Commit Changes**"
-git config user.email "apim@devops.com"
-git config user.name "APIM Automation"
-git add .
-git commit -m "Extract Tool $API_NAME"
+changes=$(git diff-index HEAD)
+if [[ ! -z $changes ]]; 
+then
+    git config user.email "apim@devops.com"
+    git config user.name "APIM Automation"
+    git add .
+    git commit -m "Extract Tool $API_NAME"
+fi
 
 echo "**Clean-up**"
 rm -f -r reskit
