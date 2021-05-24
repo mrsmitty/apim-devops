@@ -9,6 +9,11 @@
 #
 # TODO: separate storage and apim resource groups
 
+echo "$DESTAPIM"
+echo "$APINAME"
+echo "$RESOURCEGROUP"
+echo "$TEMPLATEDIRECTORY"
+
 pathname="$APINAME-$EPOCHSECONDS"
 container="templatedeployment"
 storageAccount="pwssydstacicd"
