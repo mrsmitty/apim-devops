@@ -10,46 +10,46 @@ MASTERTEMPLATE="api-master-template.json"
 
 git branch --show-current
 
-if [[ ! -d $TEMPLATE_DIRECTORY ]]
-then
-    echo "**Create Template Directory**"
-    mkdir -p $TEMPLATE_DIRECTORY
+# if [[ ! -d $TEMPLATE_DIRECTORY ]]
+# then
+#     echo "**Create Template Directory**"
+#     mkdir -p $TEMPLATE_DIRECTORY
     
-fi
+# fi
 
-if [[ ! -f $TEMPLATE_DIRECTORY/api-master-template.json ]]
-then
-    echo "**Master Template Update**"
-    echo "- Copy master template"
-    cp ../base-template/master.template.json "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
-    echo "- Template API Name update"
-    sed -i "s/<API_NAME>/$API_NAME/g" "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
-fi
+# if [[ ! -f $TEMPLATE_DIRECTORY/api-master-template.json ]]
+# then
+#     echo "**Master Template Update**"
+#     echo "- Copy master template"
+#     cp ../base-template/master.template.json "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
+#     echo "- Template API Name update"
+#     sed -i "s/<API_NAME>/$API_NAME/g" "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
+# fi
 
-echo "**Tool Download**"
-TOOLURL="https://github.com/Azure/azure-api-management-devops-resource-kit/releases/download/v0.5/Portable.zip"
-wget -O "reskit-linux64.zip" $TOOLURL
-unzip -o -d reskit reskit-linux64.zip
+# echo "**Tool Download**"
+# TOOLURL="https://github.com/Azure/azure-api-management-devops-resource-kit/releases/download/v0.5/Portable.zip"
+# wget -O "reskit-linux64.zip" $TOOLURL
+# unzip -o -d reskit reskit-linux64.zip
 
-echo "**Template Extract**"
-dotnet ./reskit/Portable/apimtemplate.dll extract \
-    --sourceApimName $SOURCE_APIM \
-    --resourceGroup $RESOURCE_GROUP \
-    --fileFolder $TEMPLATE_DIRECTORY \
-    --baseFileName $API_NAME \
-    --destinationApimName $DEST_APIM \
-    --policyXMLBaseUrl "https://dummy.blob.core.windows.net/" \
-    --apiName $API_NAME \
-    --paramServiceUrl=true --paramNamedValue=true
+# echo "**Template Extract**"
+# dotnet ./reskit/Portable/apimtemplate.dll extract \
+#     --sourceApimName $SOURCE_APIM \
+#     --resourceGroup $RESOURCE_GROUP \
+#     --fileFolder $TEMPLATE_DIRECTORY \
+#     --baseFileName $API_NAME \
+#     --destinationApimName $DEST_APIM \
+#     --policyXMLBaseUrl "https://dummy.blob.core.windows.net/" \
+#     --apiName $API_NAME \
+#     --paramServiceUrl=true --paramNamedValue=true
 
-echo "**Policy File Reference Update**"
-APITEMPLATEPATH=$TEMPLATE_DIRECTORY/$API_NAME-$API_NAME-api.template.json
-echo "- Create parameter"
-JSON=$(cat $APITEMPLATEPATH | jq '.parameters += {"sasToken":{"type":"string"}}')
-echo "- Reference parameter"
-JSON=$(sed "s/apiPolicy.xml'/apiPolicy.xml?', parameters('sasToken')/" <<< $JSON)
-echo "- Replace file"
-echo $JSON | jq '.' > $APITEMPLATEPATH
+# echo "**Policy File Reference Update**"
+# APITEMPLATEPATH=$TEMPLATE_DIRECTORY/$API_NAME-$API_NAME-api.template.json
+# echo "- Create parameter"
+# JSON=$(cat $APITEMPLATEPATH | jq '.parameters += {"sasToken":{"type":"string"}}')
+# echo "- Reference parameter"
+# JSON=$(sed "s/apiPolicy.xml'/apiPolicy.xml?', parameters('sasToken')/" <<< $JSON)
+# echo "- Replace file"
+# echo $JSON | jq '.' > $APITEMPLATEPATH
 
 echo "**Commit Changes**"
 changes=$(git diff-index HEAD)
