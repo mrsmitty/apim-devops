@@ -50,6 +50,8 @@ echo "- Replace file"
 echo $JSON | jq '.' > $APITEMPLATEPATH
 
 echo "**Commit Changes**"
+git config user.email "apim@devops.com"
+git config user.name "APIM Automation"
 git add .
 git commit -m "Extract Tool $API_NAME"
 
