@@ -8,7 +8,7 @@ echo "API Template Directory: $TEMPLATE_DIRECTORY"
 
 MASTERTEMPLATE="api-master-template.json"
 
-git branch --show-current
+echo $(git branch --show-current)
 
 # if [[ ! -d $TEMPLATE_DIRECTORY ]]
 # then
@@ -55,10 +55,14 @@ echo "**Commit Changes**"
 changes=$(git diff-index HEAD)
 if [[ ! -z $changes ]]; 
 then
+    echo "- config user"
     git config user.email "apim@devops.com"
     git config user.name "APIM Automation"
+    echo "- add and commit"
     git add .
     git commit -m "Extract Tool $API_NAME"
+    echo "- push"
+    git push
 fi
 
 echo "**Clean-up**"
