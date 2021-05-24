@@ -17,9 +17,9 @@ jobs:
         git status
         git add .
         git commit -m "APIM DevOps [skip ci]"
-        git push origin HEAD:$SRCBRANCHNAME
+        git push origin "HEAD:$SRCBRANCH"
     env:
       SRCPATH: $(System.DefaultWorkingDirectory)/apim-devops
-      SRCBRANCHNAME: Build.SourceBranchName
+      SRCBRANCH: $(Build.SourceBranch)
   - checkout: self
     clean: true
