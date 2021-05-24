@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# The following Environment Variables are required
+#
+# DESTAPIM: APIM Deployment Target resource name
+# APINAME: API Name
+# RESOURCEGROUP: Storage Account Resource Group
+# TEMPLATEDIRECTORY: API ARM Template path
+#
+# TODO: separate storage and apim resource groups
+
 pathname="$APINAME-$EPOCHSECONDS"
 container="templatedeployment"
 storageAccount="pwssydstacicd"
@@ -13,7 +22,7 @@ connection=$(az storage account show-connection-string \
 
 output=$(az storage blob upload-batch \
     --destination $container \
-    --source "../api/$APINAME/" \
+    --source "$TEMPLATEDIRECTORY/$APINAME/" \
     --destination-path $pathname \
     --connection-string $connection)
 
@@ -25,10 +34,7 @@ end=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
 sas=`az storage container generate-sas -n $container --https-only --permissions dlrw --expiry $end --connection-string $connection -o tsv`
 
 INCLUDEPRODUCTS=false
-if [[ -f $APINAME-products.template.json ]]
-then
-    $INCLUDEPRODUCTS=true
-fi
+[[ -f $TEMPLATEDIRECTORY/$APINAME/$APINAME-products.template.json ]] && $INCLUDEPRODUCTS=true
 
 az deployment group create \
   --name pathname \
