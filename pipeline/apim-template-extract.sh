@@ -37,13 +37,13 @@ unzip -o -d reskit reskit-linux64.zip
 
 echo "**Template Extract**"
 dotnet ./reskit/Portable/apimtemplate.dll extract \
-    --sourceApimName $SOURCE_APIM \
-    --resourceGroup $RESOURCE_GROUP \
-    --fileFolder $TEMPLATE_DIRECTORY \
-    --baseFileName $API_NAME \
-    --destinationApimName $DEST_APIM \
+    --sourceApimName "$SOURCE_APIM" \
+    --resourceGroup "$RESOURCE_GROUP" \
+    --fileFolder "$TEMPLATE_DIRECTORY" \
+    --baseFileName "$API_NAME" \
+    --destinationApimName "$DEST_APIM" \
     --policyXMLBaseUrl "https://dummy.blob.core.windows.net/" \
-    --apiName $API_NAME \
+    --apiName "$API_NAME" \
     --paramServiceUrl=true --paramNamedValue=true
 
 echo "**Policy File Reference Update**"
