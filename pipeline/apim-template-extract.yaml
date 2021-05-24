@@ -24,6 +24,9 @@ jobs:
       value: $(Build.SourceBranch)
 
   steps:
+  - checkout: self
+    persistCredentials: true
+    
   - task: AzureCLI@2
     displayName: APIM Template Extract
     inputs:

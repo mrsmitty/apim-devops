@@ -12,9 +12,6 @@ jobs:
       script: |
         git config user.email "apim@devops.com"
         git config user.name "APIM Automation"
-        # git checkout -b features/apim-change
-        touch $SRCPATH/file.txt
-        git status
         git add .
         git commit -m "APIM DevOps [skip ci]"
         git push origin "HEAD:$SRCBRANCH"

@@ -58,19 +58,14 @@ echo "- Replace file"
 echo $JSON | jq '.' > $APITEMPLATEPATH
 
 echo "**Commit Changes**"
-changes=$(git diff-index HEAD)
-if [[ ! -z $changes ]]; 
-then
-    git switch -c origin/$SOURCE_BRANCH
-    echo "- config user"
-    git config user.email "apim@devops.com"
-    git config user.name "APIM Automation"
-    echo "- add and commit"
-    git add .
-    git commit -m "Extract Tool $API_NAME"
-    echo "- push"
-    git push
-fi
+echo "- config user"
+git config user.email "apim@devops.com"
+git config user.name "APIM Automation"
+echo "- add and commit"
+git add .
+git commit -m "Extract Tool $API_NAME"
+echo "- push"
+git push origin "HEAD:$SOURCE_BRANCH"
 
 echo "**Clean-up**"
 rm -f -r reskit
