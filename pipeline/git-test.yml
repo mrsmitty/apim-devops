@@ -8,7 +8,7 @@ jobs:
   - task: Bash@3
     inputs:
       targetType: 'inline'
-      workingDirectory: $(Build.SourcesDirectory)
+      workingDirectory: $(System.DefaultWorkingDirectory)
       script: |
         pwd
         echo $SRCPATH
@@ -20,6 +20,6 @@ jobs:
         git push
         # git branch delete features/apim-change
     env:
-      SRCPATH: $(Build.SourcesDirectory)
+      SRCPATH: $(System.DefaultWorkingDirectory)
   - checkout: self
     clean: true
