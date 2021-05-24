@@ -59,6 +59,7 @@ echo "**Commit Changes**"
 changes=$(git diff-index HEAD)
 if [[ ! -z $changes ]]; 
 then
+    git switch -c $SOURCE_BRANCH
     echo "- config user"
     git config user.email "apim@devops.com"
     git config user.name "APIM Automation"

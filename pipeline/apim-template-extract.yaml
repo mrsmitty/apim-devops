@@ -10,6 +10,8 @@ jobs:
   pool:
     vmImage: ubuntu-16.04
   variables:
+    - name: SOURCE_APIM
+      value: PWS-SYD-APIM-CICD
     - name: DEST_APIM
       value: PWS-SYD-APIM-DEVCICD
     - name: API_NAME
@@ -18,6 +20,8 @@ jobs:
       value: PWS-SYD-ARG-CICD
     - name: TEMPLATE_DIRECTORY
       value: $(System.DefaultWorkingDirectory)/api/PetStoreV3
+    - name: SOURCE_BRANCH
+      value: $(Build.SourceBranch)
 
   steps:
   - task: AzureCLI@2
