@@ -9,7 +9,7 @@ echo "API Template Directory: $TEMPLATE_DIRECTORY"
 MASTERTEMPLATE="api-master-template.json"
 
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-if [[ "$BRANCH" != "master" ]]; then
+if [[ "$BRANCH" == "master" ]]; then
   echo 'Aborting: cannot run from master branch. Create a new branch before running pipeline.'
   exit 1
 fi

@@ -21,7 +21,7 @@ jobs:
 
   steps:
   - task: AzureCLI@2
-    displayName: Azure CLI
+    displayName: APIM Template Extract
     inputs:
       azureSubscription: sp-apim-ado
       scriptType: bash
