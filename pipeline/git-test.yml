@@ -10,14 +10,16 @@ jobs:
       targetType: 'inline'
       workingDirectory: $(System.DefaultWorkingDirectory)/apim-devops
       script: |
-        git checkout -b features/apim-change
+        git config user.email "apim@devops.com"
+        git config user.name "APIM Automation"
+        # git checkout -b features/apim-change
         touch $SRCPATH/file.txt
         git status
         git add .
         git commit -m "APIM DevOps [skip ci]"
-        git push
-        git branch delete features/apim-change
+        git push origin HEAD:$SRCBRANCHNAME
     env:
       SRCPATH: $(System.DefaultWorkingDirectory)/apim-devops
+      SRCBRANCHNAME: Build.SourceBranchName
   - checkout: self
     clean: true
