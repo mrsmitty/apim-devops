@@ -19,4 +19,4 @@ jobs:
     env:
       SRCPATH: $(System.DefaultWorkingDirectory)
   - checkout: self
-      clean: true
+    clean: true
