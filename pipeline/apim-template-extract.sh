@@ -6,11 +6,12 @@ echo "Destination APIM: $DEST_APIM"
 echo "Destination API: $API_NAME"
 echo "Destination Resource Group: $RESOURCE_GROUP"
 echo "API Template Directory: $TEMPLATE_DIRECTORY"
+echo %BUILD_SOURCEBRANCH%
 
 MASTERTEMPLATE="api-master-template.json"
 
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-if [[ "$BRANCH" == "master" ]]; then
+if [[ %BUILD_SOURCEBRANCH% == "master" ]]; then
   echo 'Aborting: cannot run from master branch. Create a new branch before running pipeline.'
   exit 1
 fi
@@ -60,7 +61,7 @@ echo "**Commit Changes**"
 changes=$(git diff-index HEAD)
 if [[ ! -z $changes ]]; 
 then
-    git switch -c $SOURCE_BRANCH
+    git switch -c origin/%BUILD_SOURCEBRANCH%
     echo "- config user"
     git config user.email "apim@devops.com"
     git config user.name "APIM Automation"
