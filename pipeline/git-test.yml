@@ -10,7 +10,8 @@ jobs:
       targetType: 'inline'
       workingDirectory: $(System.DefaultWorkingDirectory)
       script: |
-        echo $(git status)
+        pwd
+        git status
         git checkout -b features/apim-change
         touch $SRCPATH/file.txt
         git add .
