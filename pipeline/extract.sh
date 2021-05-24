@@ -1,8 +1,9 @@
 #!/bin/bash
 
-SOURCEAPIM="PWS-SYD-APIM-CICD"
-RESOURCEGROUP="PWS-SYD-ARG-CICD"
-APINAME="PetStoreV3"
-DESTAPIM="PWS-SYD-DEV-ARG-CICD"
-echo "run script"
-source apim-devops-tool.sh $SOURCEAPIM $RESOURCEGROUP $APINAME $DESTAPIM
+export DEST_APIM="PWS-SYD-DEV-ARG-CICD"
+export API_NAME="PetStoreV3"
+export RESOURCE_GROUP="PWS-SYD-ARG-CICD"
+export SOURCE_APIM="PWS-SYD-APIM-CICD"
+export TEMPLATE_DIRECTORY="/workspaces/apim-devops/api/PetStoreV3"
+
+source apim-template-extract.sh

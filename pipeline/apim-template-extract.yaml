@@ -1,0 +1,24 @@
+jobs:
+- job: deployApim
+  pool:
+    vmImage: ubuntu-16.04
+  variables:
+    - name: DEST_APIM
+      value: PWS-SYD-APIM-DEVCICD
+    - name: API_NAME
+      value: PetStoreV3
+    - name: RESOURCE_GROUP
+      value: PWS-SYD-ARG-CICD
+    - name: TEMPLATE_DIRECTORY
+      value: $(System.DefaultWorkingDirectory)/api/PetStoreV3
+    - name: BUILD_ID
+      value: $(Build.BuildId)
+
+  steps:
+  - task: AzureCLI@2
+    displayName: Azure CLI
+    inputs:
+      azureSubscription: sp-apim-ado
+      scriptType: bash
+      scriptLocation: scriptPath
+      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-template-deploy.sh
