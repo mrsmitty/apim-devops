@@ -20,7 +20,9 @@ echo "API Template Director: $TEMPLATE_DIRECTORY"
 echo "Linked template Storage Account & Container: $storageAccount/$container"
 echo "Build ID: $BUILD_ID"
 
-if [[ -z $BUILD_ID]]; then pathname="$API_NAME-$BUILD_ID"; else pathname="$API_NAME-$EPOCHSECONDS"; fi
+if [[ -z $BUILD_ID ]]; then pathname="$API_NAME-$BUILD_ID"; else pathname="$API_NAME-$EPOCHSECONDS"; fi
+
+echo "Template Dest Path: $pathname"
 
 echo "UPLOAD"
 connection=$(az storage account show-connection-string \
