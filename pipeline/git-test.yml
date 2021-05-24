@@ -5,5 +5,4 @@
   - task: Bash@3
     inputs:
       targetType: inline
-      script: |
-        git status
+      script: echo git status
