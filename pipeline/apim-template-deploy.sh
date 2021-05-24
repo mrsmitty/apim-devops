@@ -20,16 +20,18 @@ echo "API Template Director: $TEMPLATE_DIRECTORY"
 echo "Linked template Storage Account & Container: $storageAccount/$container"
 echo "Build ID: $BUILD_ID"
 
-if [[ -z $BUILD_ID ]]; then pathname="$API_NAME-$BUILD_ID"; else pathname="$API_NAME-$EPOCHSECONDS"; fi
+if [[ ! -z $BUILD_ID ]]; then pathname="$API_NAME-$BUILD_ID"; else pathname="$API_NAME-$EPOCHSECONDS"; fi
 
 echo "Template Dest Path: $pathname"
 
-echo "UPLOAD"
+echo "**UPLOAD**"
+echo "Connection String"
 connection=$(az storage account show-connection-string \
     --resource-group $RESOURCE_GROUP \
     --name $storageAccount \
     --query connectionString)
 
+echo "Batch Upload"
 output=$(az storage blob upload-batch \
     --destination $container \
     --source "$TEMPLATE_DIRECTORY/" \
@@ -38,7 +40,7 @@ output=$(az storage blob upload-batch \
 
 rootFileUri="https://$storageAccount.blob.core.windows.net/$container/$pathname"
 
-echo "DEPLOYMENT"
+echo "**DEPLOYMENT**"
 
 end=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
 sas=`az storage container generate-sas -n $container --https-only --permissions dlrw --expiry $end --connection-string $connection -o tsv`
