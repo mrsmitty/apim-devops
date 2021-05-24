@@ -2,32 +2,35 @@
 
 # The following Environment Variables are required
 #
-# DESTAPIM: APIM Deployment Target resource name
-# APINAME: API Name
-# RESOURCEGROUP: Storage Account Resource Group
-# TEMPLATEDIRECTORY: API ARM Template path
+# DEST_APIM: APIM Deployment Target resource name
+# API_NAME: API Name
+# RESOURCE_GROUP: Storage Account Resource Group
+# TEMPLATE_DIRECTORY: API ARM Template path
 #
 # TODO: separate storage and apim resource groups
 
-echo "$DESTAPIM"
-echo "$APINAME"
-echo "$RESOURCEGROUP"
-echo "$TEMPLATEDIRECTORY"
 
-pathname="$APINAME-$EPOCHSECONDS"
 container="templatedeployment"
 storageAccount="pwssydstacicd"
 
+echo "Destination APIM: $DEST_APIM"
+echo "Destination API: $API_NAME"
+echo "Destination Resource Group: $RESOURCE_GROUP"
+echo "API Template Director: $TEMPLATE_DIRECTORY"
+echo "Linked template Storage Account & Container: $storageAccount/$container"
+echo "Build ID: $BUILD_ID"
+
+if [[ -z $BUILD_ID]]; then pathname="$API_NAME-$BUILD_ID"; else pathname="$API_NAME-$EPOCHSECONDS"; fi
 
 echo "UPLOAD"
 connection=$(az storage account show-connection-string \
-    --resource-group $RESOURCEGROUP \
+    --resource-group $RESOURCE_GROUP \
     --name $storageAccount \
     --query connectionString)
 
 output=$(az storage blob upload-batch \
     --destination $container \
-    --source "$TEMPLATEDIRECTORY/$APINAME/" \
+    --source "$TEMPLATE_DIRECTORY/" \
     --destination-path $pathname \
     --connection-string $connection)
 
@@ -39,16 +42,16 @@ end=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
 sas=`az storage container generate-sas -n $container --https-only --permissions dlrw --expiry $end --connection-string $connection -o tsv`
 
 INCLUDEPRODUCTS=false
-[[ -f $TEMPLATEDIRECTORY/$APINAME/$APINAME-products.template.json ]] && $INCLUDEPRODUCTS=true
+[[ -f $TEMPLATE_DIRECTORY/$API_NAME-products.template.json ]] && $INCLUDEPRODUCTS=true
 
 az deployment group create \
   --name pathname \
-  --resource-group $RESOURCEGROUP \
+  --resource-group $RESOURCE_GROUP \
   --template-uri "$rootFileUri/api-master-template.json" \
   --query-string $sas \
-  --parameters @$TEMPLATEDIRECTORY/$APINAME-parameters.json \
+  --parameters @$TEMPLATE_DIRECTORY/$API_NAME-parameters.json \
   --parameters "PolicyXMLBaseUrl=$rootFileUri/policies" \
   --parameters "sasToken=$sas" \
   --parameters "LinkedTemplatesBaseUrl=dummy" \
-  --parameters "ApimServiceName=$DESTAPIM" \
+  --parameters "ApimServiceName=$DEST_APIM" \
   --parameters "includeProducts=$INCLUDEPRODUCTS"
