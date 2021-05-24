@@ -1,3 +1,10 @@
+parameters:
+- name: apiName
+  displayName: API Name
+  type: string
+  values:
+  - PetStoreV3
+
 jobs:
 - job: deployApim
   pool:
@@ -6,13 +13,11 @@ jobs:
     - name: DEST_APIM
       value: PWS-SYD-APIM-DEVCICD
     - name: API_NAME
-      value: PetStoreV3
+      value: ${{ parameters.apiName }}
     - name: RESOURCE_GROUP
       value: PWS-SYD-ARG-CICD
     - name: TEMPLATE_DIRECTORY
       value: $(System.DefaultWorkingDirectory)/api/PetStoreV3
-    - name: BUILD_ID
-      value: $(Build.BuildId)
 
   steps:
   - task: AzureCLI@2
@@ -21,4 +26,4 @@ jobs:
       azureSubscription: sp-apim-ado
       scriptType: bash
       scriptLocation: scriptPath
-      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-template-deploy.sh
+      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-template-extract.sh
