@@ -1,6 +1,7 @@
 #!/bin/bash
 
 storageAccount="pwssydstacicd"
+echo "Source APIM: $SOURCE_APIM"
 echo "Destination APIM: $DEST_APIM"
 echo "Destination API: $API_NAME"
 echo "Destination Resource Group: $RESOURCE_GROUP"
