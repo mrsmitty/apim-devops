@@ -12,6 +12,7 @@ jobs:
       script: |
         pwd
         echo $SRCPATH
+        ls -la
         git status
         # git checkout -b features/apim-change
         touch $SRCPATH/file.txt
