@@ -34,7 +34,7 @@ az deployment group create \
   --resource-group $APIM_RESOURCE_GROUP \
   --template-uri "$ROOT_FILE_URL/api-master-template.json" \
   --query-string $SAS \
-  --parameters @$LOCAL_TEMPLATE_DIRECTORY/$API_NAME-parameters.json \
+  --parameters @$LOCAL_TEMPLATE_DIRECTORY/$PARAMETER_FILE_NAME \
   --parameters "PolicyXMLBaseUrl=$ROOT_FILE_URL/policies" \
   --parameters "sasToken=$SAS" \
   --parameters "LinkedTemplatesBaseUrl=dummy" \

@@ -19,6 +19,7 @@ stages:
     parameters:
       name: development
       dependsOn: uploadStorageTemplates
+      parameterFileName: PetStoreV3-parameters.json
       apimName: PWS-SYD-APIM-DEVCICD
       apimResourceGroupName: PWS-SYD-ARG-CICD
       apiName: $(ApiName)
@@ -32,6 +33,7 @@ stages:
     parameters:
       name: test
       dependsOn: development
+      parameterFileName: PetStoreV3-parameters.json
       apimName: PWS-SYD-APIM-DEVCICD
       apimResourceGroupName: PWS-SYD-ARG-CICD
       apiName: $(ApiName)
