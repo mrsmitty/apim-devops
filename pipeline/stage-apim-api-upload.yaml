@@ -52,5 +52,5 @@ stages:
           
       - publish: $(System.DefaultWorkingDirectory)/pipeline/apim-api-deploy.sh
         artifact: Scripts
-      - publish: $(System.DefaultWorkingDirectory)/api/$API_NAME
+      - publish: $(System.DefaultWorkingDirectory)/api/${{ parameters.apiName }}
         artifact: Templates
