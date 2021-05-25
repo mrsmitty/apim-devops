@@ -1,0 +1,68 @@
+parameters:
+  - name: name
+    type: string
+  - name: apimName
+    displayName: Destination APIM Name
+    type: string
+  - name: apimResourceGroupName
+    displayName: Destination APIM Resource Group
+    type: string
+  - name: apiName
+    displayName: Target API Name (case sensitive)
+    type: string
+  - name: storageAccountName
+    displayName: Storage Account ARM Templates
+    type: string
+  - name: storageAccountResourceGroupName
+    displayName: Storage Account Resource Group
+    type: string
+  - name: containerName
+    displayName: Storage Account Container ARM Tempaltes
+    type: string
+  - name: templatePath
+    displayName: Storage Account relative template path
+    type: string
+  - name: uploadFiles
+    displayName: Upload ARM Templates
+    type: boolean
+    default: false
+  - name: localTemplateDirectory
+    displayName: Local Template Directory
+    type: string
+
+stages:    
+- stage: ${{ parameters.name }}
+  displayName : ${{ parameters.name }}
+  jobs:
+  - job: deployApim
+    displayName: Deploy APIM Template
+    pool:
+      vmImage: ubuntu-16.04
+    variables:
+      - name: APIM_NAME
+        value: ${{ parameters.apimName }}
+      - name: APIM_RESOURCE_GROUP
+        value: ${{ parameters.apimResourceGroupName }}
+      - name: API_NAME
+        value: ${{ parameters.apiName }}
+      - name: STORAGE_ACCOUNT
+        value: ${{ parameters.storageAccountName }}
+      - name: STORAGE_RESOURCE_GROUP
+        value: ${{ parameters.storageAccountResourceGroupName }}
+      - name: CONTAINER
+        value: ${{ parameters.containerName }}
+      - name: REMOTE_TEMPLATE_PATH
+        value: ${{ parameters.templatePath }}
+      - name: LOCAL_TEMPLATE_DIRECTORY
+        value: ${{ parameters.localTemplateDirectory }}
+      - name: UPLOAD_FILES
+        value: ${{ parameters.uploadFiles }}
+
+    steps:
+    - task: AzureCLI@2
+      displayName: Azure CLI - Deploy APIM Template
+      inputs:
+        azureSubscription: sp-apim-ado
+        scriptType: bash
+        scriptLocation: scriptPath
+        scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-template-deploy.sh

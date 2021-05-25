@@ -1,0 +1,20 @@
+variables:
+  ApiName: PetStoreV3
+  StorageAccount: pwssydstacicd
+  StorageResourceGroup: PWS-SYD-ARG-CICD
+  ContainerName: templatedeployment
+
+stages:
+  - template: stage-apim-api-deploy.yml
+    displayName: Development
+    parameters:
+      name: development
+      apimName: PWS-SYD-APIM-DEVCICD
+      apimResourceGroupName: PWS-SYD-ARG-CICD
+      apiName: $(ApiName)
+      storageAccountName: $(StorageAccount)
+      storageAccountResourceGroupName: $(StorageResourceGroup)
+      containerName: $(ContainerName)
+      templatePath: $(ApiName)$(Build.BuildId)
+      uploadFiles: true
+      localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)
