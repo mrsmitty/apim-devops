@@ -16,6 +16,7 @@ container="templatedeployment"
 echo "Destination APIM: $APIM_NAME"
 echo "Destination Resource Group: $APIM_RESOURCE_GROUP"
 echo "Destination API: $API_NAME"
+echo "Upload Files?: $UPLOAD_FILES"
 
 # Storage Account
 ROOT_FILE_URL="https://$STORAGE_ACCOUNT.blob.core.windows.net/$CONTAINER/$REMOTE_TEMPLATE_PATH"
