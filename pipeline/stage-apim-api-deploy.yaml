@@ -29,9 +29,13 @@ parameters:
   - name: localTemplateDirectory
     displayName: Local Template Directory
     type: string
+  - name: dependsOn
+    type: string
+    default:
 
 stages:    
 - stage: ${{ parameters.name }}
+  dependsOn: ${{ parameters.dependsOn }}
   displayName : ${{ parameters.name }}
   jobs:
   - job: deployApim

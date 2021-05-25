@@ -17,3 +17,17 @@ stages:
       templatePath: $(ApiName)$(Build.BuildId)
       uploadFiles: true
       localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)
+
+  - template: stage-apim-api-deploy.yaml
+    parameters:
+      name: test
+      dependsOn: development
+      apimName: PWS-SYD-APIM-DEVCICD
+      apimResourceGroupName: PWS-SYD-ARG-CICD
+      apiName: $(ApiName)
+      storageAccountName: $(StorageAccount)
+      storageAccountResourceGroupName: $(StorageResourceGroup)
+      containerName: $(ContainerName)
+      templatePath: $(ApiName)$(Build.BuildId)
+      uploadFiles: false
+      localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)
