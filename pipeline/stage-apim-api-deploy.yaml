@@ -38,7 +38,8 @@ stages:
   dependsOn: ${{ parameters.dependsOn }}
   displayName : ${{ parameters.name }}
   jobs:
-  - job: deployApim
+  - deployment: deployApim
+    environment: ${{ parameters.apiName }}${{ parameters.name }}
     displayName: Deploy APIM Template
     pool:
       vmImage: ubuntu-16.04
@@ -61,12 +62,14 @@ stages:
         value: ${{ parameters.localTemplateDirectory }}
       - name: UPLOAD_FILES
         value: ${{ parameters.uploadFiles }}
-
-    steps:
-    - task: AzureCLI@2
-      displayName: Azure CLI - Deploy APIM Template
-      inputs:
-        azureSubscription: sp-apim-ado
-        scriptType: bash
-        scriptLocation: scriptPath
-        scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-api-deploy.sh
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureCLI@2
+            displayName: Azure CLI - Deploy APIM Template
+            inputs:
+              azureSubscription: sp-apim-ado
+              scriptType: bash
+              scriptLocation: scriptPath
+              scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-api-deploy.sh

@@ -23,7 +23,7 @@ ROOT_FILE_URL="https://$STORAGE_ACCOUNT.blob.core.windows.net/$CONTAINER/$REMOTE
 echo "API Template Directory: $LOCAL_TEMPLATE_DIRECTORY"
 echo "Remote Template URL: $ROOT_FILE_URL"
 
-if [[ $UPLOAD_FILES ]]
+if [[ $UPLOAD_FILES=="True" ]]
 then
     echo "**UPLOAD**"
     echo "Connection String"
@@ -40,9 +40,7 @@ then
         --connection-string $CONNECTION)
 fi
 
-
 echo "**DEPLOYMENT**"
-
 END=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
 SAS=`az storage container generate-sas -n $CONTAINER --https-only --permissions dlrw --expiry $END --connection-string $CONNECTION -o tsv`
 
