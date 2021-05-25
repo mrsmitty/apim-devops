@@ -41,8 +41,6 @@ stages:
           value: ${{ parameters.templatePath }}
         - name: LOCAL_TEMPLATE_DIRECTORY
           value: ${{ parameters.localTemplateDirectory }}
-        - name: UPLOAD_FILES
-          value: ${{ parameters.uploadFiles }}
       steps:
       - task: AzureCLI@2
         displayName: Azure CLI - Storage Account Upload
