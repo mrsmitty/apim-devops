@@ -47,6 +47,8 @@ stages:
         value: ${{ parameters.apiName }}
       - name: STORAGE_ACCOUNT
         value: ${{ parameters.storageAccountName }}
+      - name: STORAGE_RESOURCE_GROUP
+        value: ${{ parameters.storageAccountResourceGroupName }}
       - name: CONTAINER
         value: ${{ parameters.containerName }}
       - name: REMOTE_TEMPLATE_PATH

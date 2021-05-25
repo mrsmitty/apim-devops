@@ -8,10 +8,6 @@
 # LOCAL_TEMPLATE_DIRECTORY: API ARM Template path
 # STORAGE_ACCOUNT, STORAGE_RESOURCE_GROUP, CONTAINER: Storage account 
 
-
-
-container="templatedeployment"
-
 # APIM Variables
 echo "Destination APIM: $APIM_NAME"
 echo "Destination Resource Group: $APIM_RESOURCE_GROUP"

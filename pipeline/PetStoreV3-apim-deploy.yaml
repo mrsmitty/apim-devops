@@ -11,7 +11,7 @@ stages:
       storageAccountName: $(StorageAccount)
       storageAccountResourceGroupName: $(StorageResourceGroup)
       containerName: $(ContainerName)
-      templatePath: $(ApiName)$(Build.BuildId)
+      templatePath: $(ApiName)-$(Build.BuildId)
       localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)
       azSubscription: sp-apim-ado
       
@@ -25,7 +25,7 @@ stages:
       storageAccountName: $(StorageAccount)
       storageAccountResourceGroupName: $(StorageResourceGroup)
       containerName: $(ContainerName)
-      templatePath: $(ApiName)$(Build.BuildId)
+      templatePath: $(ApiName)-$(Build.BuildId)
       azSubscription: sp-apim-ado
 
   - template: stage-apim-api-deploy.yaml
@@ -38,5 +38,5 @@ stages:
       storageAccountName: $(StorageAccount)
       storageAccountResourceGroupName: $(StorageResourceGroup)
       containerName: $(ContainerName)
-      templatePath: $(ApiName)$(Build.BuildId)
+      templatePath: $(ApiName)-$(Build.BuildId)
       azSubscription: sp-apim-ado
