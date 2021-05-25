@@ -22,7 +22,7 @@ ROOT_FILE_URL="https://$STORAGE_ACCOUNT.blob.core.windows.net/$CONTAINER/$REMOTE
 echo "API Template Directory: $LOCAL_TEMPLATE_DIRECTORY"
 echo "Remote Template URL: $ROOT_FILE_URL"
 
-IF [[ $UPLOAD_FILES ]]
+if [[ $UPLOAD_FILES ]]
 then
     echo "**UPLOAD**"
     echo "Connection String"
