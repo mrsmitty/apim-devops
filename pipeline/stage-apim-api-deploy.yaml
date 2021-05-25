@@ -55,10 +55,13 @@ stages:
       runOnce:
         deploy:
           steps:
+          - download: current
+            artifact: Scripts
+            
           - task: AzureCLI@2
             displayName: Azure CLI - Deploy APIM Template
             inputs:
               azureSubscription: ${{ parameters.azSubscription }}
               scriptType: bash
               scriptLocation: scriptPath
-              scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-api-deploy.sh
+              scriptPath: $(Pipeline.Workspace)/Scripts/apim-api-deploy.sh

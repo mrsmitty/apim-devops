@@ -37,3 +37,6 @@ jobs:
       scriptType: bash
       scriptLocation: scriptPath
       scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-template-extract.sh
+
+  - publish: $(System.DefaultWorkingDirectory)/pipeline/apim-api-deploy.sh
+    artifact: Scripts
