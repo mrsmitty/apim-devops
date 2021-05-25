@@ -63,7 +63,7 @@ git config user.email "apim@devops.com"
 git config user.name "APIM Automation"
 echo "- add and commit"
 git add .
-git commit -m "Extract Tool $API_NAME"
+git commit -m "Extract Tool $API_NAME [skip ci]"
 echo "- push"
 git push origin "HEAD:$SOURCE_BRANCH"
 

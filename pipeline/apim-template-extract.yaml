@@ -6,7 +6,8 @@ parameters:
   - PetStoreV3
 
 jobs:
-- job: deployApim
+- job: extractApim
+  displayName: Extract APIM Template
   pool:
     vmImage: ubuntu-16.04
   variables:
@@ -28,7 +29,7 @@ jobs:
     persistCredentials: true
     
   - task: AzureCLI@2
-    displayName: APIM Template Extract
+    displayName: AZ CLI - Extract APIM Template
     inputs:
       azureSubscription: sp-apim-ado
       scriptType: bash

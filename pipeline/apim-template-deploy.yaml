@@ -1,5 +1,6 @@
 jobs:
 - job: deployApim
+  displayName: Deploy APIM Template
   pool:
     vmImage: ubuntu-16.04
   variables:
@@ -16,7 +17,7 @@ jobs:
 
   steps:
   - task: AzureCLI@2
-    displayName: Azure CLI
+    displayName: Azure CLI - Deploy APIM Template
     inputs:
       azureSubscription: sp-apim-ado
       scriptType: bash
