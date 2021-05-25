@@ -6,7 +6,6 @@ variables:
 
 stages:
   - template: stage-apim-api-deploy.yml
-    displayName: Development
     parameters:
       name: development
       apimName: PWS-SYD-APIM-DEVCICD
