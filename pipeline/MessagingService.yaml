@@ -1,0 +1,46 @@
+variables:
+  ApiName: MessagingService
+  StorageAccount: pwssydstacicd
+  StorageResourceGroup: PWS-SYD-ARG-CICD
+  ContainerName: templatedeployment
+  devParamFile: MessagingService-parameters.json
+  testParamFile: MessagingService-parameters.json
+
+stages:
+  - template: templates/stage-apim-api-upload.yaml
+    parameters:
+      apiName: $(ApiName)
+      storageAccountName: $(StorageAccount)
+      storageAccountResourceGroupName: $(StorageResourceGroup)
+      containerName: $(ContainerName)
+      templatePath: $(ApiName)-$(Build.BuildId)
+      localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)
+      azSubscription: sp-apim-ado
+      
+  - template: templates/stage-apim-api-deploy.yaml
+    parameters:
+      name: development
+      dependsOn: uploadStorageTemplates
+      parameterFileName: $(devParamFile)
+      apimName: PWS-SYD-APIM-DEVCICD
+      apimResourceGroupName: PWS-SYD-ARG-CICD
+      apiName: $(ApiName)
+      storageAccountName: $(StorageAccount)
+      storageAccountResourceGroupName: $(StorageResourceGroup)
+      containerName: $(ContainerName)
+      templatePath: $(ApiName)-$(Build.BuildId)
+      azSubscription: sp-apim-ado
+
+  - template: templates/stage-apim-api-deploy.yaml
+    parameters:
+      name: test
+      dependsOn: development
+      parameterFileName: $(testParamFile)
+      apimName: PWS-SYD-APIM-DEVCICD
+      apimResourceGroupName: PWS-SYD-ARG-CICD
+      apiName: $(ApiName)
+      storageAccountName: $(StorageAccount)
+      storageAccountResourceGroupName: $(StorageResourceGroup)
+      containerName: $(ContainerName)
+      templatePath: $(ApiName)-$(Build.BuildId)
+      azSubscription: sp-apim-ado

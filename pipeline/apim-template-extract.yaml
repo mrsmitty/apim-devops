@@ -1,9 +1,13 @@
+trigger: none
+
 parameters:
 - name: apiName
   displayName: API Name
   type: string
   values:
   - PetStoreV3
+  - MessagingService
+  - Petstore
 
 jobs:
 - job: extractApim
@@ -20,7 +24,7 @@ jobs:
     - name: RESOURCE_GROUP
       value: PWS-SYD-ARG-CICD
     - name: TEMPLATE_DIRECTORY
-      value: $(System.DefaultWorkingDirectory)/api/PetStoreV3
+      value: $(System.DefaultWorkingDirectory)/api/${{ parameters.apiName }}
     - name: SOURCE_BRANCH
       value: $(Build.SourceBranch)
 
@@ -34,4 +38,4 @@ jobs:
       azureSubscription: sp-apim-ado
       scriptType: bash
       scriptLocation: scriptPath
-      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-template-extract.sh
+      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/scripts/apim-template-extract.sh

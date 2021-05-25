@@ -1,0 +1,75 @@
+parameters:
+  - name: name
+    type: string
+  - name: apimName
+    displayName: Destination APIM Name
+    type: string
+  - name: apimResourceGroupName
+    displayName: Destination APIM Resource Group
+    type: string
+  - name: apiName
+    displayName: Target API Name (case sensitive)
+    type: string
+  - name: storageAccountName
+    displayName: Storage Account ARM Templates
+    type: string
+  - name: storageAccountResourceGroupName
+    displayName: Storage Account Resource Group
+    type: string
+  - name: containerName
+    displayName: Storage Account Container ARM Tempaltes
+    type: string
+  - name: templatePath
+    displayName: Storage Account relative template path
+    type: string
+  - name: parameterFileName
+    displayName: ARM Template Parameter filename
+    type: string
+  - name: azSubscription
+    type: string
+  - name: dependsOn
+    type: string
+    default:
+
+stages:    
+- stage: ${{ parameters.name }}
+  dependsOn: ${{ parameters.dependsOn }}
+  displayName : ${{ parameters.name }}
+  jobs:
+  - deployment: deployApim
+    environment: ${{ parameters.apiName }}-${{ parameters.name }}
+    displayName: Deploy APIM Template
+    pool:
+      vmImage: ubuntu-16.04
+    variables:
+      - name: APIM_NAME
+        value: ${{ parameters.apimName }}
+      - name: APIM_RESOURCE_GROUP
+        value: ${{ parameters.apimResourceGroupName }}
+      - name: API_NAME
+        value: ${{ parameters.apiName }}
+      - name: STORAGE_ACCOUNT
+        value: ${{ parameters.storageAccountName }}
+      - name: STORAGE_RESOURCE_GROUP
+        value: ${{ parameters.storageAccountResourceGroupName }}
+      - name: CONTAINER
+        value: ${{ parameters.containerName }}
+      - name: REMOTE_TEMPLATE_PATH
+        value: ${{ parameters.templatePath }}
+      - name: LOCAL_TEMPLATE_DIRECTORY
+        value: $(Pipeline.Workspace)/Templates
+      - name: PARAMETER_FILE_NAME
+        value: ${{ parameters.parameterFileName }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+          
+          - task: AzureCLI@2
+            displayName: Azure CLI - Deploy APIM Template
+            inputs:
+              azureSubscription: ${{ parameters.azSubscription }}
+              scriptType: bash
+              scriptLocation: scriptPath
+              scriptPath: $(Pipeline.Workspace)/Scripts/apim-api-deploy.sh
