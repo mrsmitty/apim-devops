@@ -1,4 +1,5 @@
 parameters:
+  - name: apiName
     displayName: Target API Name (case sensitive)
     type: string
   - name: storageAccountName
