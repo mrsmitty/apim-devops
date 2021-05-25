@@ -6,6 +6,8 @@ parameters:
   type: string
   values:
   - PetStoreV3
+  - MessagingService
+  - Petstore
 
 jobs:
 - job: extractApim
@@ -36,4 +38,4 @@ jobs:
       azureSubscription: sp-apim-ado
       scriptType: bash
       scriptLocation: scriptPath
-      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-template-extract.sh
+      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/scripts/apim-template-extract.sh

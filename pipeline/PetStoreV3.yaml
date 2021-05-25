@@ -5,7 +5,7 @@ variables:
   ContainerName: templatedeployment
 
 stages:
-  - template: stage-apim-api-upload.yaml
+  - template: templates/stage-apim-api-upload.yaml
     parameters:
       apiName: $(ApiName)
       storageAccountName: $(StorageAccount)
@@ -15,7 +15,7 @@ stages:
       localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)
       azSubscription: sp-apim-ado
       
-  - template: stage-apim-api-deploy.yaml
+  - template: templates/stage-apim-api-deploy.yaml
     parameters:
       name: development
       dependsOn: uploadStorageTemplates
@@ -29,7 +29,7 @@ stages:
       templatePath: $(ApiName)-$(Build.BuildId)
       azSubscription: sp-apim-ado
 
-  - template: stage-apim-api-deploy.yaml
+  - template: templates/stage-apim-api-deploy.yaml
     parameters:
       name: test
       dependsOn: development

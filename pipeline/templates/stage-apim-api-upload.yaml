@@ -48,9 +48,9 @@ stages:
           azureSubscription: ${{ parameters.azsubscription }}
           scriptType: bash
           scriptLocation: scriptPath
-          scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-api-upload.sh
+          scriptPath: $(System.DefaultWorkingDirectory)/pipeline/scripts/apim-api-upload.sh
           
-      - publish: $(System.DefaultWorkingDirectory)/pipeline/apim-api-deploy.sh
+      - publish: $(System.DefaultWorkingDirectory)/pipeline/scripts/apim-api-deploy.sh
         artifact: Scripts
       - publish: $(System.DefaultWorkingDirectory)/api/${{ parameters.apiName }}
         artifact: Templates
