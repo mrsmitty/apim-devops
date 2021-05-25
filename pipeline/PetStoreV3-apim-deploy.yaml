@@ -5,6 +5,16 @@ variables:
   ContainerName: templatedeployment
 
 stages:
+  - template: stage-apim-api-upload.yaml
+    parameters:
+      apiName: $(ApiName)
+      storageAccountName: $(StorageAccount)
+      storageAccountResourceGroupName: $(StorageResourceGroup)
+      containerName: $(ContainerName)
+      templatePath: $(ApiName)$(Build.BuildId)
+      uploadFiles: true
+      localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)
+      
   - template: stage-apim-api-deploy.yaml
     parameters:
       name: development
@@ -15,8 +25,6 @@ stages:
       storageAccountResourceGroupName: $(StorageResourceGroup)
       containerName: $(ContainerName)
       templatePath: $(ApiName)$(Build.BuildId)
-      uploadFiles: true
-      localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)
 
   - template: stage-apim-api-deploy.yaml
     parameters:
@@ -29,5 +37,3 @@ stages:
       storageAccountResourceGroupName: $(StorageResourceGroup)
       containerName: $(ContainerName)
       templatePath: $(ApiName)$(Build.BuildId)
-      uploadFiles: false
-      localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)

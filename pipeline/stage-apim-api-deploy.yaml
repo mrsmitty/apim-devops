@@ -22,13 +22,6 @@ parameters:
   - name: templatePath
     displayName: Storage Account relative template path
     type: string
-  - name: uploadFiles
-    displayName: Upload ARM Templates
-    type: boolean
-    default: false
-  - name: localTemplateDirectory
-    displayName: Local Template Directory
-    type: string
   - name: dependsOn
     type: string
     default:
@@ -39,7 +32,7 @@ stages:
   displayName : ${{ parameters.name }}
   jobs:
   - deployment: deployApim
-    environment: ${{ parameters.apiName }}${{ parameters.name }}
+    environment: ${{ parameters.apiName }}-${{ parameters.name }}
     displayName: Deploy APIM Template
     pool:
       vmImage: ubuntu-16.04
@@ -52,16 +45,10 @@ stages:
         value: ${{ parameters.apiName }}
       - name: STORAGE_ACCOUNT
         value: ${{ parameters.storageAccountName }}
-      - name: STORAGE_RESOURCE_GROUP
-        value: ${{ parameters.storageAccountResourceGroupName }}
       - name: CONTAINER
         value: ${{ parameters.containerName }}
       - name: REMOTE_TEMPLATE_PATH
         value: ${{ parameters.templatePath }}
-      - name: LOCAL_TEMPLATE_DIRECTORY
-        value: ${{ parameters.localTemplateDirectory }}
-      - name: UPLOAD_FILES
-        value: ${{ parameters.uploadFiles }}
     strategy:
       runOnce:
         deploy:

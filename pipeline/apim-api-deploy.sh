@@ -16,32 +16,19 @@ container="templatedeployment"
 echo "Destination APIM: $APIM_NAME"
 echo "Destination Resource Group: $APIM_RESOURCE_GROUP"
 echo "Destination API: $API_NAME"
-echo "Upload Files?: $UPLOAD_FILES"
 
 # Storage Account
 ROOT_FILE_URL="https://$STORAGE_ACCOUNT.blob.core.windows.net/$CONTAINER/$REMOTE_TEMPLATE_PATH"
-echo "API Template Directory: $LOCAL_TEMPLATE_DIRECTORY"
 echo "Remote Template URL: $ROOT_FILE_URL"
 
-if [[ $UPLOAD_FILES=="True" ]]
-then
-    echo "**UPLOAD**"
-    echo "Connection String"
-    CONNECTION=$(az storage account show-connection-string \
-        --resource-group $STORAGE_RESOURCE_GROUP \
-        --name $STORAGE_ACCOUNT \
-        --query connectionString)
-
-    echo "Batch Upload"
-    output=$(az storage blob upload-batch \
-        --destination $CONTAINER \
-        --source "$LOCAL_TEMPLATE_DIRECTORY/" \
-        --destination-path $REMOTE_TEMPLATE_PATH \
-        --connection-string $CONNECTION)
-fi
-
 echo "**DEPLOYMENT**"
+CONNECTION=$(az storage account show-connection-string \
+    --resource-group $STORAGE_RESOURCE_GROUP \
+    --name $STORAGE_ACCOUNT \
+    --query connectionString)
+
 END=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
+
 SAS=`az storage container generate-sas -n $CONTAINER --https-only --permissions dlrw --expiry $END --connection-string $CONNECTION -o tsv`
 
 INCLUDEPRODUCTS=false
