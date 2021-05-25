@@ -24,29 +24,30 @@ stages:
 - stage: uploadStorageTemplates
   displayName : Upload API ARM Templates
   jobs:
-    displayName: Storage Account Upload
-    pool:
-      vmImage: ubuntu-16.04
-    variables:
-      - name: API_NAME
-        value: ${{ parameters.apiName }}
-      - name: STORAGE_ACCOUNT
-        value: ${{ parameters.storageAccountName }}
-      - name: STORAGE_RESOURCE_GROUP
-        value: ${{ parameters.storageAccountResourceGroupName }}
-      - name: CONTAINER
-        value: ${{ parameters.containerName }}
-      - name: REMOTE_TEMPLATE_PATH
-        value: ${{ parameters.templatePath }}
-      - name: LOCAL_TEMPLATE_DIRECTORY
-        value: ${{ parameters.localTemplateDirectory }}
-      - name: UPLOAD_FILES
-        value: ${{ parameters.uploadFiles }}
-    steps:
-    - task: AzureCLI@2
-      displayName: Azure CLI - Storage Account Upload
-      inputs:
-        azureSubscription: ${{ parameters.azsubscription }}
-        scriptType: bash
-        scriptLocation: scriptPath
-        scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-api-upload.sh
+    - job:
+      displayName: Storage Account Upload
+      pool:
+        vmImage: ubuntu-16.04
+      variables:
+        - name: API_NAME
+          value: ${{ parameters.apiName }}
+        - name: STORAGE_ACCOUNT
+          value: ${{ parameters.storageAccountName }}
+        - name: STORAGE_RESOURCE_GROUP
+          value: ${{ parameters.storageAccountResourceGroupName }}
+        - name: CONTAINER
+          value: ${{ parameters.containerName }}
+        - name: REMOTE_TEMPLATE_PATH
+          value: ${{ parameters.templatePath }}
+        - name: LOCAL_TEMPLATE_DIRECTORY
+          value: ${{ parameters.localTemplateDirectory }}
+        - name: UPLOAD_FILES
+          value: ${{ parameters.uploadFiles }}
+      steps:
+      - task: AzureCLI@2
+        displayName: Azure CLI - Storage Account Upload
+        inputs:
+          azureSubscription: ${{ parameters.azsubscription }}
+          scriptType: bash
+          scriptLocation: scriptPath
+          scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-api-upload.sh
