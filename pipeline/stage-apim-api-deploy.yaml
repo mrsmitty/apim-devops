@@ -65,4 +65,4 @@ stages:
         azureSubscription: sp-apim-ado
         scriptType: bash
         scriptLocation: scriptPath
-        scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-template-deploy.sh
+        scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-api-deploy.sh
