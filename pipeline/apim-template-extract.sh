@@ -57,6 +57,10 @@ JSON=$(sed "s/apiPolicy.xml'/apiPolicy.xml?', parameters('sasToken')/" <<< $JSON
 echo "- Replace file"
 echo $JSON | jq '.' > $APITEMPLATEPATH
 
+echo "**Clean-up**"
+rm -f -r reskit
+rm -f reskit-linux64.zip
+
 echo "**Commit Changes**"
 echo "- config user"
 git config user.email "apim@devops.com"
@@ -66,8 +70,4 @@ git add .
 git commit -m "Extract Tool $API_NAME [skip ci]"
 echo "- push"
 git push origin "HEAD:$SOURCE_BRANCH"
-
-echo "**Clean-up**"
-rm -f -r reskit
-rm -f reskit-linux64.zip
 
