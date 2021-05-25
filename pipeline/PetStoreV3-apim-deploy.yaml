@@ -12,7 +12,6 @@ stages:
       storageAccountResourceGroupName: $(StorageResourceGroup)
       containerName: $(ContainerName)
       templatePath: $(ApiName)$(Build.BuildId)
-      uploadFiles: true
       localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)
       azSubscription: sp-apim-ado
       
