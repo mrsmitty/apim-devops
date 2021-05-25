@@ -1,10 +1,10 @@
 variables:
-  ApiName: Petstore
+  ApiName: MessagingService
   StorageAccount: pwssydstacicd
   StorageResourceGroup: PWS-SYD-ARG-CICD
   ContainerName: templatedeployment
-  devParamFile: Petstore-parameters.json
-  testParamFile: Petstore-parameters.json
+  devParamFile: MessagingService-parameters.json
+  testParamFile: MessagingService-parameters.json
 
 stages:
   - template: templates/stage-apim-api-upload.yaml
