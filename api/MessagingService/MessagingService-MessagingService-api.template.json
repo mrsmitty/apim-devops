@@ -51,6 +51,27 @@
           "representations": []
         },
         "responses": [],
+        "displayName": "Get SMS History",
+        "method": "GET",
+        "urlTemplate": "/sms"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/messagingservice/get-sms-history')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'messagingservice')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [],
         "displayName": "SendSMS",
         "method": "POST",
         "urlTemplate": "/send"
