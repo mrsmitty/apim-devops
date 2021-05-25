@@ -18,6 +18,7 @@ stages:
   - template: stage-apim-api-deploy.yaml
     parameters:
       name: development
+      dependsOn: uploadStorageTemplates
       apimName: PWS-SYD-APIM-DEVCICD
       apimResourceGroupName: PWS-SYD-ARG-CICD
       apiName: $(ApiName)
