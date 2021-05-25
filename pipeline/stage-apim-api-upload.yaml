@@ -16,7 +16,7 @@ parameters:
   - name: localTemplateDirectory
     displayName: Local Template Directory
     type: string
-  - name: azsubscription
+  - name: azSubscription
     type: string
 
 stages:    

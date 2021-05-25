@@ -22,6 +22,8 @@ parameters:
   - name: templatePath
     displayName: Storage Account relative template path
     type: string
+  - name: azSubscription
+    type: string
   - name: dependsOn
     type: string
     default:
@@ -56,7 +58,7 @@ stages:
           - task: AzureCLI@2
             displayName: Azure CLI - Deploy APIM Template
             inputs:
-              azureSubscription: sp-apim-ado
+              azureSubscription: ${{ parameters.azSubscription }}
               scriptType: bash
               scriptLocation: scriptPath
               scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-api-deploy.sh
