@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "ApimServiceName": {
-      "value": "PWS-SYD-DEV-ARG-CICD"
+      "value": "PWS-SYD-APIM-DEVCICD"
     },
     "PolicyXMLBaseUrl": {
       "value": "https://dummy.blob.core.windows.net/"

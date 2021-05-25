@@ -1,0 +1,37 @@
+parameters:
+- name: apiName
+  displayName: API Name
+  type: string
+  values:
+  - PetStoreV3
+
+jobs:
+- job: extractApim
+  displayName: Extract APIM Template
+  pool:
+    vmImage: ubuntu-16.04
+  variables:
+    - name: SOURCE_APIM
+      value: PWS-SYD-APIM-CICD
+    - name: DEST_APIM
+      value: PWS-SYD-APIM-DEVCICD
+    - name: API_NAME
+      value: ${{ parameters.apiName }}
+    - name: RESOURCE_GROUP
+      value: PWS-SYD-ARG-CICD
+    - name: TEMPLATE_DIRECTORY
+      value: $(System.DefaultWorkingDirectory)/api/PetStoreV3
+    - name: SOURCE_BRANCH
+      value: $(Build.SourceBranch)
+
+  steps:
+  - checkout: self
+    persistCredentials: true
+    
+  - task: AzureCLI@2
+    displayName: AZ CLI - Extract APIM Template
+    inputs:
+      azureSubscription: sp-apim-ado
+      scriptType: bash
+      scriptLocation: scriptPath
+      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-template-extract.sh
