@@ -49,3 +49,6 @@ stages:
           scriptType: bash
           scriptLocation: scriptPath
           scriptPath: $(System.DefaultWorkingDirectory)/pipeline/apim-api-upload.sh
+          
+      - publish: $(System.DefaultWorkingDirectory)/pipeline/apim-api-deploy.sh
+        artifact: Scripts
