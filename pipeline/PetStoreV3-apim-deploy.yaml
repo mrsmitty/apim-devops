@@ -5,7 +5,7 @@ variables:
   ContainerName: templatedeployment
 
 stages:
-  - template: stage-apim-api-deploy.yml
+  - template: stage-apim-api-deploy.yaml
     parameters:
       name: development
       apimName: PWS-SYD-APIM-DEVCICD
