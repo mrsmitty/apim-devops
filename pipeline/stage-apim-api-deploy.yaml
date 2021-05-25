@@ -53,13 +53,14 @@ stages:
         value: ${{ parameters.containerName }}
       - name: REMOTE_TEMPLATE_PATH
         value: ${{ parameters.templatePath }}
+      - NAME: LOCAL_TEMPLATE_DIRECTORY
+        value: $(Pipeline.Workspace)/Templates
     strategy:
       runOnce:
         deploy:
           steps:
           - download: current
-            artifact: Scripts
-            
+          
           - task: AzureCLI@2
             displayName: Azure CLI - Deploy APIM Template
             inputs:
