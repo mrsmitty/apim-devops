@@ -6,4 +6,7 @@ jobs:
     pool:
       vmImage: ubuntu-latest
     steps:
-      - script: echo "Hi, ${{ parameters.salutation }}."
+      - task: ShellScript@2
+        inputs:
+          scriptPath: run.sh
+          args: ${{ parameters.salutation }}
