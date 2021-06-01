@@ -1,0 +1,9 @@
+parameters:
+  - name: salutation
+    type: string
+jobs:
+  - job:
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - script: echo "Hi, ${{ parameters.salutation }}."
