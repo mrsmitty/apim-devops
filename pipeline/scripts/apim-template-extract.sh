@@ -27,7 +27,7 @@ if [[ ! -f $TEMPLATE_DIRECTORY/api-master-template.json ]]
 then
     echo "**Master Template Update**"
     echo "- Copy master template"
-    cp ../base-template/master.template.json "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
+    cp $TEMPLATE_DIRECTORY/../../base-template/master.template.json "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
     echo "- Template API Name update"
     sed -i "s/<API_NAME>/$API_NAME/g" "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
 fi
