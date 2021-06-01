@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ ! -z $1 ]]
+if [[ -n "${1}" ]]
 then
     ENV=${1^^}
 fi
