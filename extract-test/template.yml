@@ -16,8 +16,8 @@ jobs:
       vmImage: ubuntu-latest
     steps:
       - checkout: tools
-        path: $(Agent.BuildDirectory)/tools
+        path: tools
       - task: ShellScript@2
         inputs:
-          scriptPath: $(Agent.BuildDirectory)/tools//extract-test/run.sh
+          scriptPath: $(Pipeline.Workspace)/tools/extract-test/run.sh
           args: ${{ parameters.salutation }}
