@@ -4,7 +4,7 @@ parameters:
 
 resources:
   repositories:
-    - repository: templates
+    - repository: tools
       type: github
       name: mrsmitty/apim-devops
       ref: refs/heads/users/ps/extends
@@ -15,7 +15,7 @@ jobs:
     pool:
       vmImage: ubuntu-latest
     steps:
-      - checkout: templates
+      - checkout: tools
         path: $(Agent.BuildDirectory)/tools
       - task: ShellScript@2
         inputs:
