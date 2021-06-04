@@ -1,11 +1,11 @@
 variables:
-  ApiName: Petstore
-  devParamFile: Petstore-parameters.json
-  testParamFile: Petstore-parameters.json
+  apiName: Petstore
+  paramFile: Petstore-parameters.json
 
 stages:
   - template: templates/stage-apim-api-deploy.yaml
     parameters:
-      parameterFileName: $(testParamFile)
-      apiName: $(ApiName)
-      templatePath: $(ApiName)-$(Build.BuildId)
+      sitParameterFileName: $(paramFile)
+      devParameterFileName: $(paramFile)
+      apiName: $(apiName)
+      templatePath: $(apiName)-$(Build.BuildId)

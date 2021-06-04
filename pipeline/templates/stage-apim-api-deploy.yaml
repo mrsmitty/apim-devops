@@ -5,7 +5,10 @@ parameters:
   - name: templatePath
     displayName: Storage Account relative template path
     type: string
-  - name: parameterFileName
+  - name: devParameterFileName
+    displayName: ARM Template Parameter filename
+    type: string
+  - name: sitParameterFileName
     displayName: ARM Template Parameter filename
     type: string
 
@@ -38,7 +41,8 @@ stages:
     parameters:
       environment: development
       apiName: ${{ parameters.apiName }}
-      parameterFileName: ${{ parameters.parameterFileName }}
+      parameterFileName: ${{ parameters.devParameterFileName }}
+      templatePath: ${{ parameters.templatePath }}
 
 - stage: systemtesting
   dependsOn: development
@@ -48,5 +52,6 @@ stages:
     parameters:
       environment: systemtesting
       apiName: ${{ parameters.apiName }}
-      parameterFileName: ${{ parameters.parameterFileName }}
+      parameterFileName: ${{ parameters.sitParameterFileName }}
+      templatePath: ${{ parameters.templatePath }}
   
