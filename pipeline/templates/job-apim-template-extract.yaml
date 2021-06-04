@@ -53,7 +53,7 @@ jobs:
   - task: AzureCLI@2
     displayName: AZ CLI - Extract APIM Template
     inputs:
-      azureSubscription: ${{ variables.azSubscription }}
+      azureSubscription: ${{ parameters.azSubscription }}
       scriptType: bash
       scriptLocation: scriptPath
       scriptPath: $(Pipeline.Workspace)/tools/pipeline/scripts/apim-template-extract.sh
