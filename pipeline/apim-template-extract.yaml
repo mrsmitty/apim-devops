@@ -5,8 +5,6 @@ parameters:
   displayName: API Name
   type: string
   values:
-  - PetStoreV3
-  - MessagingService
   - Petstore
 
 jobs:

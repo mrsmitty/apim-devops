@@ -1,23 +1,6 @@
 parameters:
-  - name: name
-    type: string
-  - name: apimName
-    displayName: Destination APIM Name
-    type: string
-  - name: apimResourceGroupName
-    displayName: Destination APIM Resource Group
-    type: string
   - name: apiName
     displayName: Target API Name (case sensitive)
-    type: string
-  - name: storageAccountName
-    displayName: Storage Account ARM Templates
-    type: string
-  - name: storageAccountResourceGroupName
-    displayName: Storage Account Resource Group
-    type: string
-  - name: containerName
-    displayName: Storage Account Container ARM Tempaltes
     type: string
   - name: templatePath
     displayName: Storage Account relative template path
@@ -25,35 +8,42 @@ parameters:
   - name: parameterFileName
     displayName: ARM Template Parameter filename
     type: string
-  - name: azSubscription
-    type: string
-  - name: dependsOn
-    type: string
-    default:
 
-stages:    
-- stage: ${{ parameters.name }}
+variables:
+ - template: variables.yml
+
+# resources:
+#   repositories:
+#     - repository: tools
+#       type: github
+#       name: mrsmitty/apim-devops
+#       ref: refs/heads/users/ps/extends
+#       endpoint: Integration
+
+stages:
+- ${{ each value in variables.environments }}: 
+- stage: ${{ value.name }}
   dependsOn: ${{ parameters.dependsOn }}
-  displayName : ${{ parameters.name }}
+  displayName : ${{ value.name }}
   jobs:
   - deployment: deployApim
-    environment: ${{ parameters.apiName }}-${{ parameters.name }}
+    environment: ${{ parameters.apiName }}-${{ value.name }}
     displayName: Deploy APIM Template
     pool:
       vmImage: ubuntu-16.04
     variables:
       - name: APIM_NAME
-        value: ${{ parameters.apimName }}
+        value: ${{ value.apimName }}
       - name: APIM_RESOURCE_GROUP
-        value: ${{ parameters.apimResourceGroupName }}
+        value: ${{ value.resourceGroupName }}
       - name: API_NAME
         value: ${{ parameters.apiName }}
       - name: STORAGE_ACCOUNT
-        value: ${{ parameters.storageAccountName }}
+        value: ${{ values.storageName }}
       - name: STORAGE_RESOURCE_GROUP
-        value: ${{ parameters.storageAccountResourceGroupName }}
+        value: ${{ values.resourceGroupName }}
       - name: CONTAINER
-        value: ${{ parameters.containerName }}
+        value: ${{ variables.containerName }}
       - name: REMOTE_TEMPLATE_PATH
         value: ${{ parameters.templatePath }}
       - name: LOCAL_TEMPLATE_DIRECTORY
@@ -69,7 +59,7 @@ stages:
           - task: AzureCLI@2
             displayName: Azure CLI - Deploy APIM Template
             inputs:
-              azureSubscription: ${{ parameters.azSubscription }}
+              azureSubscription: ${{ value.azSubscription }}
               scriptType: bash
               scriptLocation: scriptPath
               scriptPath: $(Pipeline.Workspace)/Scripts/apim-api-deploy.sh

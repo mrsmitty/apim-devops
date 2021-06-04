@@ -3,7 +3,7 @@
 storageAccount="pwssydstacicd"
 echo "Source APIM: $SOURCE_APIM"
 echo "Destination APIM: $DEST_APIM"
-echo "Destination API: $API_NAME"
+echo "API Name: $API_NAME"
 echo "Destination Resource Group: $RESOURCE_GROUP"
 echo "API Template Directory: $TEMPLATE_DIRECTORY"
 echo "Current branch: $SOURCE_BRANCH"
