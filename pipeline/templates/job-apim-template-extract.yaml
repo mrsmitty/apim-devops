@@ -3,7 +3,7 @@ parameters:
   displayName: API Name
   type: string
 - name: targetTemplatePath
-  displayName: Root repo path to create the API folder and template files
+  displayName: Relative repo path to create the API folder and template files
   type: string
 - name: azSubscription
   displayName: Azure Service Connection
@@ -38,15 +38,16 @@ jobs:
     - name: RESOURCE_GROUP
       value: ${{ parameters.sourceApimResourceGroup }}
     - name: TEMPLATE_DIRECTORY
-      value: ${{ parameters.targetTemplatePath }}/${{ parameters.apiName }}
+      value: $(Pipeline.Workspace)/api/${{ parameters.targetTemplatePath }}/${{ parameters.apiName }}
     - name: SOURCE_BRANCH
-      value: $(Build.SourceBranch)
+      value: $(Build.SourceBranchName)
 
   steps:
   - checkout: tools
     path: tools
 
   - checkout: self
+    path: api
     persistCredentials: true
     
   - task: AzureCLI@2
@@ -55,4 +56,4 @@ jobs:
       azureSubscription: ${{ variables.azSubscription }}
       scriptType: bash
       scriptLocation: scriptPath
-      scriptPath: $(Build.SourcesDirectory)/tools/pipeline/scripts/apim-template-extract.sh
+      scriptPath: $(Pipeline.Workspace)/tools/pipeline/scripts/apim-template-extract.sh

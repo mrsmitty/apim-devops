@@ -12,5 +12,5 @@ extends:
   template: pipeline/templates/job-apim-template-extract.yaml@templates
   parameters:
     apiName: Petstore
-    targetTemplatePath: $(Build.SourcesDirectory)/apim-devops/api/
+    targetTemplatePath: api
     azSubscription: sp-apim-ado
