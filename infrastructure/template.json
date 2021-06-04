@@ -1,25 +1,27 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {
-    "environment": {
-      "type": "string"
-    }
-  },
   "variables": {
-    "apimName": "[concat('PWS-SYD-APIM-',coalesce(parameters('environment'), ''),'CICD')]",
-    "storageName": "[concat('pwssydsta',coalesce(parameters('environment'), ''),'cicd')]",
-    "keyVaultName":"[concat('pwssydsta',coalesce(parameters('environment'), ''),'cicd2')]",
+    "apimName": [
+      "PWS-SYD-APIM-DEV-CICD",
+      "PWS-SYD-APIM-TST-CICD"
+    ],
+    "storageName": "pwssydstacicd",
     "publisherEmail": "paul.smithdale@insight.com",
     "publisherName": "Paul Smithdale",
-    "skuName": "Developer",
     "containerName": "templatedeployment"
   },
   "resources": [
     {
-      "name": "[variables('apimName')]",
+      "copy": {
+        "name": "apimLoop",
+        "mode": "Parallel",
+        "count": "[length(variables('apimName'))]"
+      },
+      "name": "[variables('apimName')[copyIndex('apimLoop')]]",
+
       "type": "Microsoft.ApiManagement/service",
-      "apiVersion": "2019-01-01",
+      "apiVersion": "2020-06-01-preview",
       "tags": {},
       "properties": {
         "notificationSenderEmail": "[variables('publisherEmail')]",
@@ -27,7 +29,8 @@
         "publisherName": "[variables('publisherName')]"
       },
       "sku": {
-        "name": "[variables('skuName')]"
+        "name": "Consumption",
+        "capacity": 0
       },
       "identity": {
         "type": "SystemAssigned"
@@ -56,36 +59,6 @@
           ]
         }
       ]
-    },
-    {
-      "name": "[variables('keyVaultName')]",
-      "type": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2019-09-01",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "tenantId": "[subscription().tenantId]",
-        "sku": {
-          "family": "A",
-          "name": "standard"
-        },
-        "accessPolicies": [
-          {
-            "tenantId": "[subscription().tenantId]",
-            "objectId":"[reference(resourceId('Microsoft.ApiManagement/service',variables('apimName')), '2019-01-01','Full').identity.principalId]",
-            "permissions": {
-              "secrets": [
-                "list",
-                "get"
-              ]
-            }
-          }
-        ],
-        "enabledForDeployment": true,
-        "enabledForTemplateDeployment": true,
-        "enableSoftDelete": true,
-        "enableRbacAuthorization": false
-      },
-      "resources": []
     }
   ],
   "outputs": {
