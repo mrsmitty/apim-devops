@@ -52,7 +52,7 @@ jobs:
           - task: AzureCLI@2
             displayName: Azure CLI - Deploy APIM Template
             inputs:
-              azureSubscription: ${{ value.azSubscription }}
+              azureSubscription: ${{ variables.azSubscription }}
               scriptType: bash
               scriptLocation: scriptPath
               scriptPath: $(Pipeline.Workspace)/Scripts/apim-api-deploy.sh
