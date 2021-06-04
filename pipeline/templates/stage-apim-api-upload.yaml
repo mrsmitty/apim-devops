@@ -37,7 +37,7 @@ stages:
     - job:
       displayName: Storage Account Upload
       pool:
-        vmImage: ubuntu-16.04
+        vmImage: ubuntu-latest
       variables:
         - name: API_NAME
           value: ${{ parameters.apiName }}
