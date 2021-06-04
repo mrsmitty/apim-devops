@@ -1,0 +1,54 @@
+parameters:
+- name: apiName
+  displayName: API Name
+  type: string
+- name: targetTemplatePath
+  displayName: Root repo path to create the API folder and template files
+  type: string
+- name: azSubscription
+  displayName: Azure Service Connection
+  type: string
+
+resources:
+  repositories:
+    - repository: tools
+      type: github
+      name: mrsmitty/apim-devops
+      ref: refs/heads/users/ps/extends
+      endpoint: Integration
+
+jobs:
+- job: extractApim
+  variables:
+  - template: deployment.yml
+  displayName: Extract APIM Template
+  pool:
+    vmImage: ubuntu-latest
+  variables:
+    - name: SOURCE_APIM
+      value: ${{ variables.apimName }}
+    - name: DEST_APIM
+      value: WAR-MOCK-APIM
+    - name: API_NAME
+      value: ${{ parameters.apiName }}
+    - name: RESOURCE_GROUP
+      value: ${{ variables.resourceGroup }}
+    - name: TEMPLATE_DIRECTORY
+      value: ${{parameters.targetTemplatePath }/${{ parameters.apiName }}
+    - name: SOURCE_BRANCH
+      value: $(Build.SourceBranch)
+
+  steps:
+  - checkout: tools
+    path: tools
+
+  - checkout: self
+    persistCredentials: true
+    
+  - task: AzureCLI@2
+    displayName: AZ CLI - Extract APIM Template
+    inputs:
+      azureSubscription: ${{ variables.azSubscription }}
+      scriptType: bash
+      scriptLocation: scriptPath
+      scriptPath: $(System.DefaultWorkingDirectory)/pipeline/scripts/apim-template-extract.sh

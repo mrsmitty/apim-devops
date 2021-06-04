@@ -1,0 +1,15 @@
+trigger: none
+
+repositories:
+  - repository: templates
+    type: github
+    name: mrsmitty/apim-devops
+    ref: refs/heads/users/ps/extends
+    endpoint: Integration
+
+extend:
+  template: pipeline/apim-template-extract.yml@templates
+  parameters:
+    apiName: Petstore
+    targetTemplatePath: $(System.DefaultWorkingDirectory)/api/
+    azSubscription: sp-apim-ado
