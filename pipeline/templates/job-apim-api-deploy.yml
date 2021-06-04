@@ -13,7 +13,7 @@ parameters:
 
 jobs:
   - deployment: deployApim
-    environment: ${{ parameters.apiName }}-${{ value.name }}
+    environment: ${{ parameters.apiName }}-${{ parameters.environment }}
     displayName: Deploy APIM Template
     pool:
       vmImage: ubuntu-16.04
@@ -22,13 +22,13 @@ jobs:
       - name: APIM_NAME
         value: ${{ variables.apimName }}
       - name: APIM_RESOURCE_GROUP
-        value: ${{ value.resourceGroupName }}
+        value: ${{ variables.resourceGroupName }}
       - name: API_NAME
         value: ${{ parameters.apiName }}
       - name: STORAGE_ACCOUNT
-        value: ${{ values.storageName }}
+        value: ${{ variables.storageName }}
       - name: STORAGE_RESOURCE_GROUP
-        value: ${{ values.resourceGroupName }}
+        value: ${{ variables.resourceGroupName }}
       - name: CONTAINER
         value: ${{ variables.containerName }}
       - name: REMOTE_TEMPLATE_PATH
@@ -45,7 +45,7 @@ jobs:
           - task: AzureCLI@2
             displayName: Azure CLI - Storage Account Upload
             inputs:
-              azureSubscription: ${{ parameters.azsubscription }}
+              azureSubscription: ${{ variables.azsubscription }}
               scriptType: bash
               scriptLocation: scriptPath
               scriptPath: $(System.DefaultWorkingDirectory)/pipeline/scripts/apim-api-upload.sh
