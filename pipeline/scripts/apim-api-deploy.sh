@@ -29,6 +29,10 @@ SAS=`az storage container generate-sas -n $CONTAINER --https-only --permissions 
 
 INCLUDEPRODUCTS=false
 [[ -f $LOCAL_TEMPLATE_DIRECTORY/$API_NAME-products.template.json ]] && $INCLUDEPRODUCTS=true
+INCLUDENAMEDVALUES=false
+[[ -f $LOCAL_TEMPLATE_DIRECTORY/$API_NAME-namedValues.template.json ]] && $INCLUDENAMEDVALUES=true
+INCLUDETAGS=false
+[[ -f $LOCAL_TEMPLATE_DIRECTORY/$API_NAME-tags.template.json ]] && $INCLUDETAGS=true
 
 az deployment group create \
   --resource-group $APIM_RESOURCE_GROUP \
@@ -39,4 +43,6 @@ az deployment group create \
   --parameters "sasToken=$SAS" \
   --parameters "LinkedTemplatesBaseUrl=dummy" \
   --parameters "ApimServiceName=$APIM_NAME" \
-  --parameters "includeProducts=$INCLUDEPRODUCTS"
+  --parameters "includeProducts=$INCLUDEPRODUCTS" \
+  --parameters "includeProducts=$INCLUDENAMEDVALUES" \
+  --parameters "includeProducts=$INCLUDETAGS"

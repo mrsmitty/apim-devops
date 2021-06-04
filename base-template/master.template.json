@@ -35,12 +35,19 @@
     "sasToken": {
       "type": "string"
     },
-    "includeProducts":{
+    "includeProducts": {
+      "type": "bool"
+    },
+    "includeNamedValues": {
+      "type": "bool"
+    },
+    "includeTags": {
       "type": "bool"
     }
   },
   "resources": [
     {
+      "condition": "[parameters('includeNamedValues')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -89,6 +96,7 @@
       ]
     },
     {
+      "condition": "[parameters('includeTags')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
