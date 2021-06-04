@@ -44,5 +44,5 @@ az deployment group create \
   --parameters "LinkedTemplatesBaseUrl=dummy" \
   --parameters "ApimServiceName=$APIM_NAME" \
   --parameters "includeProducts=$INCLUDEPRODUCTS" \
-  --parameters "includeProducts=$INCLUDENAMEDVALUES" \
-  --parameters "includeProducts=$INCLUDETAGS"
+  --parameters "includeNamedValues=$INCLUDENAMEDVALUES" \
+  --parameters "includeTags=$INCLUDETAGS"
