@@ -28,9 +28,9 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - publish: $(System.DefaultWorkingDirectory)/pipeline/scripts/
+    - publish: $(Build.SourcesDirectory)/pipeline/scripts/
       artifact: Scripts
-    - publish: $(System.DefaultWorkingDirectory)/api/${{ parameters.apiName }}
+    - publish: $(Build.SourcesDirectory)/api/${{ parameters.apiName }}
       artifact: Templates
 
 - stage: development
