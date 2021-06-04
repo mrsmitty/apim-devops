@@ -4,12 +4,6 @@ variables:
   testParamFile: Petstore-parameters.json
 
 stages:
-  - template: templates/stage-apim-api-upload.yaml
-    parameters:
-      apiName: $(ApiName)
-      templatePath: $(ApiName)-$(Build.BuildId)
-      localTemplateDirectory: $(System.DefaultWorkingDirectory)/api/$(ApiName)
-
   - template: templates/stage-apim-api-deploy.yaml
     parameters:
       parameterFileName: $(testParamFile)

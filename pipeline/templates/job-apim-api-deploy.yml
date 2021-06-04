@@ -43,7 +43,13 @@ jobs:
         deploy:
           steps:
           - download: current
-          
+          - task: AzureCLI@2
+            displayName: Azure CLI - Storage Account Upload
+            inputs:
+              azureSubscription: ${{ parameters.azsubscription }}
+              scriptType: bash
+              scriptLocation: scriptPath
+              scriptPath: $(System.DefaultWorkingDirectory)/pipeline/scripts/apim-api-upload.sh
           - task: AzureCLI@2
             displayName: Azure CLI - Deploy APIM Template
             inputs:

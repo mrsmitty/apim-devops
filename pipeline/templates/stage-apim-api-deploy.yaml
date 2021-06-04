@@ -21,8 +21,21 @@ variables:
 #       endpoint: Integration
 
 stages:
+- stage: staging
+  displayName: Stage Scripts and Templates
+  jobs:
+  - job: stageArmTemplates
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - publish: $(System.DefaultWorkingDirectory)/pipeline/scripts/apim-api-deploy.sh
+      artifact: Scripts
+    - publish: $(System.DefaultWorkingDirectory)/api/${{ parameters.apiName }}
+      artifact: Templates
+
 - stage: development
-  displayName : development
+  dependsOn: staging
+  displayName: development
   jobs:
   - template: job-apim-api-deploy.yml
     parameters:
@@ -31,6 +44,7 @@ stages:
       parameterFileName: ${{ parameters.parameterFileName }}
 
 - stage: systemtesting
+  dependsOn: development
   displayName : System Testing
   jobs:
   - template: job-apim-api-deploy.yml
