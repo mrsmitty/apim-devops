@@ -8,6 +8,12 @@ parameters:
 - name: azSubscription
   displayName: Azure Service Connection
   type: string
+- name: sourceApim
+  type: string
+  default: PWS-SYD-APIM-DEV-CICD
+- name: sourceApimResourceGroup
+  type: string
+  default: PWS-SYD-ARG-CICD
 
 resources:
   repositories:
@@ -23,15 +29,14 @@ jobs:
   pool:
     vmImage: ubuntu-latest
   variables:
-    - template: deployment.yml
     - name: SOURCE_APIM
-      value: ${{ variables.apimName }}
+      value: ${{ parameters.sourceApim }}
     - name: DEST_APIM
       value: WAR-MOCK-APIM
     - name: API_NAME
       value: ${{ parameters.apiName }}
     - name: RESOURCE_GROUP
-      value: ${{ variables.resourceGroup }}
+      value: ${{ parameters.sourceApimResourceGroup }}
     - name: TEMPLATE_DIRECTORY
       value: ${{ parameters.targetTemplatePath }}/${{ parameters.apiName }}
     - name: SOURCE_BRANCH
