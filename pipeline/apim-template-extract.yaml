@@ -8,7 +8,7 @@ parameters:
   - Petstore
 
 variables:
-  - template: ../templates/variables.yml
+  - template: variables.yml
 
 jobs:
 - job: extractApim
