@@ -1,13 +1,14 @@
 trigger: none
 
-repositories:
-  - repository: templates
-    type: github
-    name: mrsmitty/apim-devops
-    ref: refs/heads/users/ps/extends
-    endpoint: Integration
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: mrsmitty/apim-devops
+      ref: refs/heads/users/ps/extends
+      endpoint: Integration
 
-extend:
+extends:
   template: pipeline/apim-template-extract.yml@templates
   parameters:
     apiName: Petstore
