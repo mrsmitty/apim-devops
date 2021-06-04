@@ -55,4 +55,4 @@ jobs:
       azureSubscription: ${{ variables.azSubscription }}
       scriptType: bash
       scriptLocation: scriptPath
-      scriptPath: $(System.DefaultWorkingDirectory)tools/pipeline/scripts/apim-template-extract.sh
+      scriptPath: $(System.DefaultWorkingDirectory)/tools/pipeline/scripts/apim-template-extract.sh
