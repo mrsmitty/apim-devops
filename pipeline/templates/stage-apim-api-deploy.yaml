@@ -9,9 +9,6 @@ parameters:
     displayName: ARM Template Parameter filename
     type: string
 
-variables:
- - template: variables.yml
-
 # resources:
 #   repositories:
 #     - repository: tools
