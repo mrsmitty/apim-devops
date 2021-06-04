@@ -18,7 +18,7 @@ jobs:
     pool:
       vmImage: ubuntu-16.04
     variables:
-      - template: "${{ parameters.environment }}.yml"
+      - template: "development.yml"
       - name: APIM_NAME
         value: ${{ variables.apimName }}
       - name: APIM_RESOURCE_GROUP
