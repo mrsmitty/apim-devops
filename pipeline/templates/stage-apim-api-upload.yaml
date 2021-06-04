@@ -22,14 +22,6 @@ parameters:
 variables:
  - template: variables.yml
 
-# resources:
-#   repositories:
-#     - repository: tools
-#       type: github
-#       name: mrsmitty/apim-devops
-#       ref: refs/heads/main
-#       endpoint: Integration
-
 stages:    
 - stage: uploadStorageTemplates
   displayName : Upload API ARM Templates

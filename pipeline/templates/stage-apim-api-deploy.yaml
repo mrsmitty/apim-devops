@@ -21,45 +21,13 @@ variables:
 #       endpoint: Integration
 
 stages:
-- ${{ each value in variables.environments }}: 
-- stage: ${{ value.name }}
+- stage: development
   dependsOn: ${{ parameters.dependsOn }}
   displayName : ${{ value.name }}
   jobs:
-  - deployment: deployApim
-    environment: ${{ parameters.apiName }}-${{ value.name }}
-    displayName: Deploy APIM Template
-    pool:
-      vmImage: ubuntu-16.04
-    variables:
-      - name: APIM_NAME
-        value: ${{ value.apimName }}
-      - name: APIM_RESOURCE_GROUP
-        value: ${{ value.resourceGroupName }}
-      - name: API_NAME
-        value: ${{ parameters.apiName }}
-      - name: STORAGE_ACCOUNT
-        value: ${{ values.storageName }}
-      - name: STORAGE_RESOURCE_GROUP
-        value: ${{ values.resourceGroupName }}
-      - name: CONTAINER
-        value: ${{ variables.containerName }}
-      - name: REMOTE_TEMPLATE_PATH
-        value: ${{ parameters.templatePath }}
-      - name: LOCAL_TEMPLATE_DIRECTORY
-        value: $(Pipeline.Workspace)/Templates
-      - name: PARAMETER_FILE_NAME
-        value: ${{ parameters.parameterFileName }}
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: current
-          
-          - task: AzureCLI@2
-            displayName: Azure CLI - Deploy APIM Template
-            inputs:
-              azureSubscription: ${{ value.azSubscription }}
-              scriptType: bash
-              scriptLocation: scriptPath
-              scriptPath: $(Pipeline.Workspace)/Scripts/apim-api-deploy.sh
+  - template: job-apim-api-deploy.yml
+    parameters:
+      environment: development
+      apiName: ${{ parameters.apiName }}
+      parameterFileName: ${{ parameters.parameterFileName }}
+  

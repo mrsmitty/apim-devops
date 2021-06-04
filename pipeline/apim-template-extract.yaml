@@ -7,9 +7,6 @@ parameters:
   values:
   - Petstore
 
-variables:
-  - template: variables.yml
-
 jobs:
 - job: extractApim
   displayName: Extract APIM Template
@@ -17,13 +14,13 @@ jobs:
     vmImage: ubuntu-latest
   variables:
     - name: SOURCE_APIM
-      value: ${{ variables.environments[0].apimName }}
+      value: PWS-SYD-APIM-DEV-CICD
     - name: DEST_APIM
       value: PWS-SYD-APIM-DEVCICD
     - name: API_NAME
       value: ${{ parameters.apiName }}
     - name: RESOURCE_GROUP
-      value: ${{ variables.environments[0].resourceGroupName }}
+      value: PWS-SYD-ARG-CICD
     - name: TEMPLATE_DIRECTORY
       value: $(System.DefaultWorkingDirectory)/api/${{ parameters.apiName }}
     - name: SOURCE_BRANCH

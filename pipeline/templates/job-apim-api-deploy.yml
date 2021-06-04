@@ -1,0 +1,53 @@
+parameters:
+- name: environment
+  type: string
+- name: apiName
+  displayName: Target API Name (case sensitive)
+  type: string
+- name: templatePath
+  displayName: Storage Account relative template path
+  type: string
+- name: parameterFileName
+  displayName: ARM Template Parameter filename
+  type: string
+
+jobs:
+  - deployment: deployApim
+    variables:
+        template: ${{ parameters.environment }}.yml
+    environment: ${{ parameters.apiName }}-${{ value.name }}
+    displayName: Deploy APIM Template
+    pool:
+      vmImage: ubuntu-16.04
+    variables:
+      - name: APIM_NAME
+        value: ${{ variables.apimName }}
+      - name: APIM_RESOURCE_GROUP
+        value: ${{ value.resourceGroupName }}
+      - name: API_NAME
+        value: ${{ parameters.apiName }}
+      - name: STORAGE_ACCOUNT
+        value: ${{ values.storageName }}
+      - name: STORAGE_RESOURCE_GROUP
+        value: ${{ values.resourceGroupName }}
+      - name: CONTAINER
+        value: ${{ variables.containerName }}
+      - name: REMOTE_TEMPLATE_PATH
+        value: ${{ parameters.templatePath }}
+      - name: LOCAL_TEMPLATE_DIRECTORY
+        value: $(Pipeline.Workspace)/Templates
+      - name: PARAMETER_FILE_NAME
+        value: ${{ parameters.parameterFileName }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+          
+          - task: AzureCLI@2
+            displayName: Azure CLI - Deploy APIM Template
+            inputs:
+              azureSubscription: ${{ value.azSubscription }}
+              scriptType: bash
+              scriptLocation: scriptPath
+              scriptPath: $(Pipeline.Workspace)/Scripts/apim-api-deploy.sh
