@@ -9,7 +9,7 @@ resources:
       endpoint: Integration
 
 extends:
-  template: pipeline/apim-template-extract.yml@templates
+  template: pipeline/templates/job-apim-template-extract.yaml@templates
   parameters:
     apiName: Petstore
     targetTemplatePath: $(System.DefaultWorkingDirectory)/api/
