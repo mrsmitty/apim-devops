@@ -29,7 +29,7 @@ then
     echo "- Copy master template"
     cp $TEMPLATE_DIRECTORY/../../base-template/master.template.json "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
     echo "- Template API Name update"
-    sed -i "s/<API_NAME>/$API_NAME/g" "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
+    sed -i "s/<apiname>/$API_NAME/g" "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
 fi
 
 echo "**Tool Download**"
