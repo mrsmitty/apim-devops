@@ -28,7 +28,7 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - publish: $(System.DefaultWorkingDirectory)/pipeline/scripts/apim-api-deploy.sh
+    - publish: $(System.DefaultWorkingDirectory)/pipeline/scripts/
       artifact: Scripts
     - publish: $(System.DefaultWorkingDirectory)/api/${{ parameters.apiName }}
       artifact: Templates

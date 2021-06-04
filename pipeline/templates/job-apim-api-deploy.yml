@@ -48,7 +48,7 @@ jobs:
               azureSubscription: ${{ variables.azsubscription }}
               scriptType: bash
               scriptLocation: scriptPath
-              scriptPath: $(System.DefaultWorkingDirectory)/pipeline/scripts/apim-api-upload.sh
+              scriptPath: $(Pipeline.Workspace)/Scripts/apim-api-upload.sh
           - task: AzureCLI@2
             displayName: Azure CLI - Deploy APIM Template
             inputs:
