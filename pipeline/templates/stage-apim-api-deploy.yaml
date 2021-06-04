@@ -22,12 +22,20 @@ variables:
 
 stages:
 - stage: development
-  dependsOn: ${{ parameters.dependsOn }}
-  displayName : ${{ value.name }}
+  displayName : development
   jobs:
   - template: job-apim-api-deploy.yml
     parameters:
       environment: development
+      apiName: ${{ parameters.apiName }}
+      parameterFileName: ${{ parameters.parameterFileName }}
+
+- stage: systemtesting
+  displayName : System Testing
+  jobs:
+  - template: job-apim-api-deploy.yml
+    parameters:
+      environment: systemtesting
       apiName: ${{ parameters.apiName }}
       parameterFileName: ${{ parameters.parameterFileName }}
   
