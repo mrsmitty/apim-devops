@@ -10,6 +10,8 @@ parameters:
 - name: parameterFileName
   displayName: ARM Template Parameter filename
   type: string
+- name: jobVariablesPath
+  type: string
 
 jobs:
   - deployment: deployApim
@@ -18,7 +20,7 @@ jobs:
     pool:
       vmImage: ubuntu-16.04
     variables:
-      - template: ${{ parameters.environment }}.yml
+      - template: ${{ parameters.jobVariablesPath }}
       - name: APIM_NAME
         value: ${{ variables.apimName }}
       - name: APIM_RESOURCE_GROUP

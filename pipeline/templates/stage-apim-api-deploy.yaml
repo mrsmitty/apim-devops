@@ -12,13 +12,13 @@ parameters:
     displayName: ARM Template Parameter filename
     type: string
 
-# resources:
-#   repositories:
-#     - repository: tools
-#       type: github
-#       name: mrsmitty/apim-devops
-#       ref: refs/heads/users/ps/extends
-#       endpoint: Integration
+resources:
+  repositories:
+    - repository: tools
+      type: github
+      name: mrsmitty/apim-devops
+      ref: refs/heads/users/ps/extends
+      endpoint: Integration
 
 stages:
 - stage: staging
@@ -37,21 +37,23 @@ stages:
   dependsOn: staging
   displayName: development
   jobs:
-  - template: job-apim-api-deploy.yml
+  - template: pipeline/templates/job-apim-api-deploy.yml@tools
     parameters:
       environment: development
       apiName: ${{ parameters.apiName }}
       parameterFileName: ${{ parameters.devParameterFileName }}
       templatePath: ${{ parameters.templatePath }}
+      jobVariablesPath: pipeline/templates/development.yml@tools
 
 - stage: systemtesting
   dependsOn: development
   displayName : System Testing
   jobs:
-  - template: job-apim-api-deploy.yml
+  - template: pipeline/templates/job-apim-api-deploy.yml@tools
     parameters:
       environment: systemtesting
       apiName: ${{ parameters.apiName }}
       parameterFileName: ${{ parameters.sitParameterFileName }}
       templatePath: ${{ parameters.templatePath }}
+      jobVariablesPath: pipeline/templates/systemtesting.yml@tools
   
