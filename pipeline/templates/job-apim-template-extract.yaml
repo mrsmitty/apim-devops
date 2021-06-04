@@ -33,7 +33,7 @@ jobs:
     - name: RESOURCE_GROUP
       value: ${{ variables.resourceGroup }}
     - name: TEMPLATE_DIRECTORY
-      value: ${{parameters.targetTemplatePath }/${{ parameters.apiName }}
+      value: ${{ parameters.targetTemplatePath }}/${{ parameters.apiName }}
     - name: SOURCE_BRANCH
       value: $(Build.SourceBranch)
 
