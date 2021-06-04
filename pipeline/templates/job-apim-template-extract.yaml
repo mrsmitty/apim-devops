@@ -19,12 +19,11 @@ resources:
 
 jobs:
 - job: extractApim
-  variables:
-  - template: deployment.yml
   displayName: Extract APIM Template
   pool:
     vmImage: ubuntu-latest
   variables:
+    - template: deployment.yml
     - name: SOURCE_APIM
       value: ${{ variables.apimName }}
     - name: DEST_APIM
