@@ -43,7 +43,7 @@ stages:
       apiName: ${{ parameters.apiName }}
       parameterFileName: ${{ parameters.devParameterFileName }}
       templatePath: ${{ parameters.templatePath }}
-      jobVariablesPath: pipeline/templates/development.yml@tools
+      jobVariablesPath: development.yml@tools
 
 - stage: systemtesting
   dependsOn: development
@@ -55,5 +55,5 @@ stages:
       apiName: ${{ parameters.apiName }}
       parameterFileName: ${{ parameters.sitParameterFileName }}
       templatePath: ${{ parameters.templatePath }}
-      jobVariablesPath: pipeline/templates/systemtesting.yml@tools
+      jobVariablesPath: systemtesting.yml@tools
   
