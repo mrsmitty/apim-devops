@@ -66,6 +66,7 @@ echo "- config user"
 git config user.email "apim@devops.com"
 git config user.name "APIM Automation"
 echo "- add and commit"
+cd $TEMPLATE_DIRECTORY
 git add .
 git commit -m "Extract Tool $API_NAME [skip ci]"
 echo "- push"
