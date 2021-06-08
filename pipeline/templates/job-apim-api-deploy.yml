@@ -13,6 +13,14 @@ parameters:
 - name: jobVariablesPath
   type: string
 
+resources:
+  repositories:
+    - repository: tools
+      type: github
+      name: mrsmitty/apim-devops
+      ref: refs/heads/users/ps/extends
+      endpoint: Integration
+
 jobs:
   - deployment: deployApim
     environment: ${{ parameters.apiName }}-${{ parameters.environment }}
@@ -43,7 +51,9 @@ jobs:
       runOnce:
         deploy:
           steps:
+
           - download: current
+
           - task: AzureCLI@2
             displayName: Azure CLI - Storage Account Upload
             inputs:
@@ -51,6 +61,7 @@ jobs:
               scriptType: bash
               scriptLocation: scriptPath
               scriptPath: $(Pipeline.Workspace)/Scripts/apim-api-upload.sh
+
           - task: AzureCLI@2
             displayName: Azure CLI - Deploy APIM Template
             inputs:
