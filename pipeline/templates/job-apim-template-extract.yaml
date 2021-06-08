@@ -51,8 +51,10 @@ jobs:
     persistCredentials: true
 
   - bash: |
-      if [[ -d "${BUILD_SOURCESDIRECTORY}/api" ]]; then echo "api path"; fi
-      if [[ -d "${BUILD_SOURCESDIRECTORY}/s/apim-devops" ]]; then echo "default repo path"; fi
+      echo "${BUILD_SOURCESDIRECTORY}"
+      echo "${PIPELINE_WORKSPACE}"
+      if [ -d "${BUILD_SOURCESDIRECTORY}" ]; then echo "api path"; fi
+      if [ -d "${BUILD_SOURCESDIRECTORY}/s/apim-devops" ]; then echo "default repo path"; fi
 
 
   - task: AzureCLI@2
