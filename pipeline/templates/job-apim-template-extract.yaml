@@ -40,7 +40,7 @@ jobs:
     - name: TEMPLATE_DIRECTORY
       value: $(Pipeline.Workspace)/api/${{ parameters.targetTemplatePath }}/${{ parameters.apiName }}
     - name: SOURCE_BRANCH
-      value: $(Build.SourceBranchName)
+      value: $(Build.SourceBranch)
 
   steps:
   - checkout: tools
