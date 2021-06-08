@@ -63,10 +63,10 @@ rm -f reskit-linux64.zip
 
 echo "**Commit Changes**"
 echo "- config user"
-git config user.email "apim@devops.com"
-git config user.name "APIM Automation"
+git config --global user.email "8188140+mrsmitty@users.noreply.github.com"
+git config --global user.name "APIM Automation"
 echo "- add and commit"
-cd $TEMPLATE_DIRECTORY
+cd "${PIPELINE_WORKSPACE}/api"
 git add .
 git commit -m "Extract Tool $API_NAME [skip ci]"
 echo "- push"
