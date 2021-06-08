@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "value": "PWS-SYD-APIM-TST-CICD"
+    },
+    "PolicyXMLBaseUrl": {
+      "value": "https://dummy.blob.core.windows.net/"
+    },
+    "serviceUrl": {
+      "value": {
+        "Petstore": "https://broken.swagger.io/api/v3/"
+      }
+    },
+    "NamedValues": {
+      "value": {}
+    }
+  },
+  "resources": []
+}

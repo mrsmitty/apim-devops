@@ -10,12 +10,13 @@ resources:
 
 variables:
   apiName: Petstore
-  paramFile: Petstore-parameters.json
+  devParamFile: Petstore-parameters.dev.json
+  sitParamFile: Petstore-parameters.sit.json
 
 extends:
   template: pipeline/templates/stage-apim-api-deploy.yaml@templates
   parameters:
-    sitParameterFileName: $(paramFile)
-    devParameterFileName: $(paramFile)
+    devParameterFileName: $(devParamFile)
+    sitParameterFileName: $(sitParamFile)
     apiName: $(apiName)
     templatePath: $(apiName)-$(Build.BuildId)

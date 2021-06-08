@@ -66,7 +66,7 @@ echo "- config user"
 git config --global user.email "8188140+mrsmitty@users.noreply.github.com"
 git config --global user.name "APIM Automation"
 echo "- add and commit"
-cd "${PIPELINE_WORKSPACE}/api"
+cd "${TEMPLATEREPO_DIRECTORY}"
 git add .
 git commit -m "Extract Tool $API_NAME [skip ci]"
 echo "- push"

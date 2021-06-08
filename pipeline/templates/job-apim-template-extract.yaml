@@ -41,6 +41,8 @@ jobs:
       value: $(Pipeline.Workspace)/api/${{ parameters.targetTemplatePath }}/${{ parameters.apiName }}
     - name: SOURCE_BRANCH
       value: $(Build.SourceBranch)
+    - name: TEMPLATEREPO_DIRECTORY
+      value: $(Pipeline.Workspace)/api
 
   steps:
   - checkout: tools
