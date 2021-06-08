@@ -49,7 +49,12 @@ jobs:
   - checkout: self
     path: api
     persistCredentials: true
-    
+
+  - bash: |
+      if [[ -d "${BUILD_SOURCESDIRECTORY}/api" ]]; then echo "api path"; fi
+      if [[ -d "${BUILD_SOURCESDIRECTORY}/s/apim-devops" ]]; then echo "default repo path"; fi
+
+
   - task: AzureCLI@2
     displayName: AZ CLI - Extract APIM Template
     inputs:
