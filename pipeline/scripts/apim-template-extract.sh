@@ -3,7 +3,7 @@
 storageAccount="pwssydstacicd"
 echo "Source APIM: $SOURCE_APIM"
 echo "Destination APIM: $DEST_APIM"
-echo "Destination API: $API_NAME"
+echo "API Name: $API_NAME"
 echo "Destination Resource Group: $RESOURCE_GROUP"
 echo "API Template Directory: $TEMPLATE_DIRECTORY"
 echo "Current branch: $SOURCE_BRANCH"
@@ -29,7 +29,7 @@ then
     echo "- Copy master template"
     cp $TEMPLATE_DIRECTORY/../../base-template/master.template.json "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
     echo "- Template API Name update"
-    sed -i "s/<API_NAME>/$API_NAME/g" "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
+    sed -i "s/<apiname>/$API_NAME/g" "$TEMPLATE_DIRECTORY/$MASTERTEMPLATE"
 fi
 
 echo "**Tool Download**"
@@ -63,9 +63,10 @@ rm -f reskit-linux64.zip
 
 echo "**Commit Changes**"
 echo "- config user"
-git config user.email "apim@devops.com"
-git config user.name "APIM Automation"
+git config --global user.email "8188140+mrsmitty@users.noreply.github.com"
+git config --global user.name "APIM Automation"
 echo "- add and commit"
+cd "${TEMPLATEREPO_DIRECTORY}"
 git add .
 git commit -m "Extract Tool $API_NAME [skip ci]"
 echo "- push"

@@ -5,18 +5,16 @@ parameters:
   displayName: API Name
   type: string
   values:
-  - PetStoreV3
-  - MessagingService
   - Petstore
 
 jobs:
 - job: extractApim
   displayName: Extract APIM Template
   pool:
-    vmImage: ubuntu-16.04
+    vmImage: ubuntu-latest
   variables:
     - name: SOURCE_APIM
-      value: PWS-SYD-APIM-CICD
+      value: PWS-SYD-APIM-DEV-CICD
     - name: DEST_APIM
       value: PWS-SYD-APIM-DEVCICD
     - name: API_NAME

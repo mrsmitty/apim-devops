@@ -18,7 +18,7 @@
   "resources": [
     {
       "properties": {
-        "description": "This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/). For this sample, you can use the api key `special-key` to test the authorization filters.",
+        "description": "This is a sample Pet Store Server based on the OpenAPI 3.0 specification. You can find out more about\nSwagger at [http://swagger.io](http://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!\nYou can now help us improve the API whether it's by making changes to the definition itself or to the code.\nThat way, with time, we can improve the API in general, and expose some of the new features in OAS3.\n\nSome useful links:\n- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)\n- [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)",
         "authenticationSettings": {
           "subscriptionKeyRequired": false
         },
@@ -29,11 +29,10 @@
         "apiRevision": "1",
         "isCurrent": true,
         "subscriptionRequired": true,
-        "displayName": "Petstore",
+        "displayName": "PetStore",
         "serviceUrl": "[parameters('serviceUrl').Petstore]",
-        "path": "",
+        "path": "petstore",
         "protocols": [
-          "http",
           "https"
         ]
       },
@@ -44,12 +43,482 @@
     },
     {
       "properties": {
-        "contentType": "application/vnd.ms-azure-apim.swagger.definitions+json",
+        "contentType": "application/vnd.oai.openapi.components+json",
         "document": {
-          "value": "{\"ApiResponse\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"integer\",\"format\":\"int32\"},\"type\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"}}},\"Category\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"name\":{\"type\":\"string\"}},\"xml\":{\"name\":\"Category\"}},\"Pet\":{\"type\":\"object\",\"required\":[\"name\",\"photoUrls\"],\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"category\":{\"$ref\":\"#/definitions/Category\"},\"name\":{\"type\":\"string\",\"example\":\"doggie\"},\"photoUrls\":{\"type\":\"array\",\"xml\":{\"wrapped\":true},\"items\":{\"type\":\"string\",\"xml\":{\"name\":\"photoUrl\"}}},\"tags\":{\"type\":\"array\",\"xml\":{\"wrapped\":true},\"items\":{\"xml\":{\"name\":\"tag\"},\"$ref\":\"#/definitions/Tag\"}},\"status\":{\"type\":\"string\",\"description\":\"pet status in the store\",\"enum\":[\"available\",\"pending\",\"sold\"]}},\"xml\":{\"name\":\"Pet\"}},\"Tag\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"name\":{\"type\":\"string\"}},\"xml\":{\"name\":\"Tag\"}},\"Order\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"petId\":{\"type\":\"integer\",\"format\":\"int64\"},\"quantity\":{\"type\":\"integer\",\"format\":\"int32\"},\"shipDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"status\":{\"type\":\"string\",\"description\":\"Order Status\",\"enum\":[\"placed\",\"approved\",\"delivered\"]},\"complete\":{\"type\":\"boolean\"}},\"xml\":{\"name\":\"Order\"}},\"User\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"username\":{\"type\":\"string\"},\"firstName\":{\"type\":\"string\"},\"lastName\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"},\"password\":{\"type\":\"string\"},\"phone\":{\"type\":\"string\"},\"userStatus\":{\"type\":\"integer\",\"format\":\"int32\",\"description\":\"User Status\"}},\"xml\":{\"name\":\"User\"}},\"PetId\":{\"format\":\"int64\",\"x-apim-inline\":true},\"Status\":{\"items\":{\"type\":\"string\",\"enum\":[\"available\",\"pending\",\"sold\"],\"default\":\"available\"},\"x-apim-inline\":true},\"PetArray\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Pet\"}},\"Tags\":{\"items\":{\"type\":\"string\"},\"x-apim-inline\":true},\"StoreInventoryGet200ApplicationJsonResponse\":{\"type\":\"object\",\"additionalProperties\":{\"type\":\"integer\",\"format\":\"int32\"}},\"OrderId\":{\"format\":\"int64\",\"maximum\":10,\"minimum\":1,\"x-apim-inline\":true},\"OrderId-1\":{\"format\":\"int64\",\"minimum\":1,\"x-apim-inline\":true},\"UserArray\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/User\"}},\"X-Expires-After\":{\"format\":\"date-time\",\"x-apim-inline\":true},\"X-Rate-Limit\":{\"format\":\"int32\",\"x-apim-inline\":true},\"UserLoginGet200ApplicationJsonResponse\":{\"type\":\"string\"},\"UserLoginGet200ApplicationXmlResponse\":{\"type\":\"string\"}}"
+          "components": {
+            "schemas": {
+              "Order": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 10
+                  },
+                  "petId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 198772
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 7
+                  },
+                  "shipDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "status": {
+                    "enum": [
+                      "placed",
+                      "approved",
+                      "delivered"
+                    ],
+                    "type": "string",
+                    "description": "Order Status",
+                    "example": "approved"
+                  },
+                  "complete": {
+                    "type": "boolean"
+                  }
+                },
+                "xml": {
+                  "name": "order"
+                }
+              },
+              "Customer": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 100000
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "fehguy"
+                  },
+                  "address": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Address"
+                    },
+                    "xml": {
+                      "name": "addresses",
+                      "wrapped": true
+                    }
+                  }
+                },
+                "xml": {
+                  "name": "customer"
+                }
+              },
+              "Address": {
+                "type": "object",
+                "properties": {
+                  "street": {
+                    "type": "string",
+                    "example": "437 Lytton"
+                  },
+                  "city": {
+                    "type": "string",
+                    "example": "Palo Alto"
+                  },
+                  "state": {
+                    "type": "string",
+                    "example": "CA"
+                  },
+                  "zip": {
+                    "type": "string",
+                    "example": "94301"
+                  }
+                },
+                "xml": {
+                  "name": "address"
+                }
+              },
+              "Category": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Dogs"
+                  }
+                },
+                "xml": {
+                  "name": "category"
+                }
+              },
+              "User": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 10
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "theUser"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "John"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": "James"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "john@email.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "12345"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "12345"
+                  },
+                  "userStatus": {
+                    "type": "integer",
+                    "description": "User Status",
+                    "format": "int32",
+                    "example": 1
+                  }
+                },
+                "xml": {
+                  "name": "user"
+                }
+              },
+              "Tag": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "xml": {
+                  "name": "tag"
+                }
+              },
+              "Pet": {
+                "required": [
+                  "name",
+                  "photoUrls"
+                ],
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 10
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "doggie"
+                  },
+                  "category": {
+                    "$ref": "#/components/schemas/Category"
+                  },
+                  "photoUrls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "xml": {
+                        "name": "photoUrl"
+                      }
+                    },
+                    "xml": {
+                      "wrapped": true
+                    }
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Tag"
+                    },
+                    "xml": {
+                      "wrapped": true
+                    }
+                  },
+                  "status": {
+                    "enum": [
+                      "available",
+                      "pending",
+                      "sold"
+                    ],
+                    "type": "string",
+                    "description": "pet status in the store"
+                  }
+                },
+                "xml": {
+                  "name": "pet"
+                }
+              },
+              "ApiResponse": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                },
+                "xml": {
+                  "name": "##default"
+                }
+              },
+              "PetFindByStatusGetRequest": {
+                "x-apim-inline": true
+              },
+              "PetFindByStatusGet200ApplicationXmlResponse": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PetRequest-xml"
+                }
+              },
+              "PetFindByStatusGet200ApplicationJsonResponse": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PetRequest-xml"
+                }
+              },
+              "PetFindByTagsGetRequest": {
+                "items": {
+                  "type": "string"
+                },
+                "x-apim-inline": true
+              },
+              "PetFindByTagsGet200ApplicationXmlResponse": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PetRequest-xml"
+                }
+              },
+              "PetFindByTagsGet200ApplicationJsonResponse": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PetRequest-xml"
+                }
+              },
+              "Pet-petId-GetRequest": {
+                "format": "int64",
+                "x-apim-inline": true
+              },
+              "Pet-petId-PostRequest": {
+                "format": "int64",
+                "x-apim-inline": true
+              },
+              "Pet-petId-PostRequest-1": {
+                "x-apim-inline": true
+              },
+              "Pet-petId-PostRequest-2": {
+                "x-apim-inline": true
+              },
+              "Pet-petId-DeleteRequest": {
+                "x-apim-inline": true
+              },
+              "Pet-petId-DeleteRequest-1": {
+                "format": "int64",
+                "x-apim-inline": true
+              },
+              "Pet-petId-UploadImagePostRequest": {
+                "format": "int64",
+                "x-apim-inline": true
+              },
+              "Pet-petId-UploadImagePostRequest-1": {
+                "x-apim-inline": true
+              },
+              "Pet-petId-UploadImagePostRequest-2": {
+                "type": "string",
+                "format": "binary"
+              },
+              "StoreInventoryGet200ApplicationJsonResponse": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "StoreOrder-orderId-GetRequest": {
+                "format": "int64",
+                "x-apim-inline": true
+              },
+              "StoreOrder-orderId-DeleteRequest": {
+                "format": "int64",
+                "x-apim-inline": true
+              },
+              "UserCreateWithListPostRequest": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "UserLoginGetRequest": {
+                "x-apim-inline": true
+              },
+              "UserLoginGetRequest-1": {
+                "x-apim-inline": true
+              },
+              "UserLoginGet200ApplicationXmlResponse": {
+                "type": "string"
+              },
+              "UserLoginGet200ApplicationJsonResponse": {
+                "type": "string"
+              },
+              "UserLoginGet200X-Rate-LimitResponseHeader": {
+                "format": "int32",
+                "x-apim-inline": true
+              },
+              "UserLoginGet200X-Expires-AfterResponseHeader": {
+                "format": "date-time",
+                "x-apim-inline": true
+              },
+              "User-username-GetRequest": {
+                "x-apim-inline": true
+              },
+              "User-username-PutRequest": {
+                "x-apim-inline": true
+              },
+              "User-username-DeleteRequest": {
+                "x-apim-inline": true
+              },
+              "PetRequest-json": {
+                "required": [
+                  "name",
+                  "photoUrls"
+                ],
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 10
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "doggie"
+                  },
+                  "category": {
+                    "$ref": "#/components/schemas/Category"
+                  },
+                  "photoUrls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "xml": {
+                        "name": "photoUrl"
+                      }
+                    },
+                    "xml": {
+                      "wrapped": true
+                    }
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Tag"
+                    },
+                    "xml": {
+                      "wrapped": true
+                    }
+                  },
+                  "status": {
+                    "enum": [
+                      "available",
+                      "pending",
+                      "sold"
+                    ],
+                    "type": "string",
+                    "description": "pet status in the store"
+                  }
+                },
+                "xml": {
+                  "name": "pet"
+                }
+              },
+              "PetRequest-xml": {
+                "required": [
+                  "name",
+                  "photoUrls"
+                ],
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 10
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "doggie"
+                  },
+                  "category": {
+                    "$ref": "#/components/schemas/Category"
+                  },
+                  "photoUrls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "xml": {
+                        "name": "photoUrl"
+                      }
+                    },
+                    "xml": {
+                      "wrapped": true
+                    }
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Tag"
+                    },
+                    "xml": {
+                      "wrapped": true
+                    }
+                  },
+                  "status": {
+                    "enum": [
+                      "available",
+                      "pending",
+                      "sold"
+                    ],
+                    "type": "string",
+                    "description": "pet status in the store"
+                  }
+                },
+                "xml": {
+                  "name": "pet"
+                }
+              },
+              "UserArrayRequest-json": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
         }
       },
-      "name": "[concat(parameters('ApimServiceName'), '/Petstore/60a34871217d201190c0951c')]",
+      "name": "[concat(parameters('ApimServiceName'), '/Petstore/60b976d395edba36988ceda2')]",
       "type": "Microsoft.ApiManagement/service/apis/schemas",
       "apiVersion": "2019-01-01",
       "dependsOn": [
@@ -59,37 +528,96 @@
     {
       "properties": {
         "templateParameters": [],
-        "description": "",
+        "description": "Add a new pet to the store",
         "request": {
-          "description": "Pet object that needs to be added to the store",
+          "description": "Create a new pet in the store",
           "queryParameters": [],
           "headers": [],
           "representations": [
             {
               "contentType": "application/json",
-              "schemaId": "60a34871217d201190c0951c",
-              "typeName": "Pet"
+              "sample": "{\r\n \"id\": 10.0,\r\n \"name\": \"doggie\",\r\n \"category\": {\r\n \"id\": 1.0,\r\n \"name\": \"Dogs\"\r\n },\r\n \"photoUrls\": [\r\n \"string\"\r\n ],\r\n \"tags\": [\r\n {\r\n \"id\": 0,\r\n \"name\": \"string\"\r\n }\r\n ],\r\n \"status\": \"available\"\r\n}",
+              "schemaId": "60b976d395edba36988ceda2",
+              "typeName": "PetRequest-xml"
             },
             {
               "contentType": "application/xml",
-              "schemaId": "60a34871217d201190c0951c",
-              "typeName": "Pet"
+              "sample": "<pet>\r\n <id>10</id>\r\n <name>doggie</name>\r\n <category>\r\n <id>1</id>\r\n <name>Dogs</name>\r\n </category>\r\n <photoUrls>\r\n <photoUrl>string</photoUrl>\r\n </photoUrls>\r\n <tags>\r\n <tag>\r\n <id>0</id>\r\n <name>string</name>\r\n </tag>\r\n </tags>\r\n <status>available</status>\r\n</pet>",
+              "schemaId": "60b976d395edba36988ceda2",
+              "typeName": "PetRequest-xml"
+            },
+            {
+              "contentType": "application/x-www-form-urlencoded",
+              "formParameters": [
+                {
+                  "name": "id",
+                  "type": "integer",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "name",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "category",
+                  "type": "object",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "photoUrls",
+                  "type": "array",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "tags",
+                  "type": "array",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "status",
+                  "type": "string",
+                  "required": false,
+                  "values": [
+                    "available",
+                    "pending",
+                    "sold"
+                  ]
+                }
+              ]
             }
           ]
         },
         "responses": [
           {
-            "statusCode": 405,
-            "description": "Invalid input",
+            "statusCode": 200,
+            "description": "Successful operation",
             "headers": [],
             "representations": [
               {
-                "contentType": "application/json"
+                "contentType": "application/xml",
+                "sample": "<pet>\r\n <id>10</id>\r\n <name>doggie</name>\r\n <category>\r\n <id>1</id>\r\n <name>Dogs</name>\r\n </category>\r\n <photoUrls>\r\n <photoUrl>string</photoUrl>\r\n </photoUrls>\r\n <tags>\r\n <tag>\r\n <id>0</id>\r\n <name>string</name>\r\n </tag>\r\n </tags>\r\n <status>available</status>\r\n</pet>",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "PetRequest-xml"
               },
               {
-                "contentType": "application/xml"
+                "contentType": "application/json",
+                "sample": "{\r\n \"id\": 10.0,\r\n \"name\": \"doggie\",\r\n \"category\": {\r\n \"id\": 1.0,\r\n \"name\": \"Dogs\"\r\n },\r\n \"photoUrls\": [\r\n \"string\"\r\n ],\r\n \"tags\": [\r\n {\r\n \"id\": 0,\r\n \"name\": \"string\"\r\n }\r\n ],\r\n \"status\": \"available\"\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "PetRequest-xml"
               }
             ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Invalid input",
+            "headers": [],
+            "representations": []
           }
         ],
         "displayName": "Add a new pet to the store",
@@ -101,7 +629,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -126,8 +654,68 @@
           "representations": [
             {
               "contentType": "application/json",
-              "schemaId": "60a34871217d201190c0951c",
+              "sample": "{\r\n \"id\": 10.0,\r\n \"username\": \"theUser\",\r\n \"firstName\": \"John\",\r\n \"lastName\": \"James\",\r\n \"email\": \"john@email.com\",\r\n \"password\": \"12345\",\r\n \"phone\": \"12345\",\r\n \"userStatus\": 1\r\n}",
+              "schemaId": "60b976d395edba36988ceda2",
               "typeName": "User"
+            },
+            {
+              "contentType": "application/xml",
+              "sample": "<user>\r\n <id>10</id>\r\n <username>theUser</username>\r\n <firstName>John</firstName>\r\n <lastName>James</lastName>\r\n <email>john@email.com</email>\r\n <password>12345</password>\r\n <phone>12345</phone>\r\n <userStatus>1</userStatus>\r\n</user>",
+              "schemaId": "60b976d395edba36988ceda2",
+              "typeName": "User"
+            },
+            {
+              "contentType": "application/x-www-form-urlencoded",
+              "formParameters": [
+                {
+                  "name": "id",
+                  "type": "integer",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "username",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "firstName",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "lastName",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "email",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "password",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "phone",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "userStatus",
+                  "type": "integer",
+                  "required": false,
+                  "values": []
+                }
+              ]
             }
           ]
         },
@@ -138,10 +726,54 @@
             "headers": [],
             "representations": [
               {
-                "contentType": "application/json"
+                "contentType": "application/json",
+                "sample": "{\r\n \"id\": 10.0,\r\n \"username\": \"theUser\",\r\n \"firstName\": \"John\",\r\n \"lastName\": \"James\",\r\n \"email\": \"john@email.com\",\r\n \"password\": \"12345\",\r\n \"phone\": \"12345\",\r\n \"userStatus\": 1\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "User"
               },
               {
-                "contentType": "application/xml"
+                "contentType": "application/xml",
+                "sample": "<user>\r\n <id>10</id>\r\n <username>theUser</username>\r\n <firstName>John</firstName>\r\n <lastName>James</lastName>\r\n <email>john@email.com</email>\r\n <password>12345</password>\r\n <phone>12345</phone>\r\n <userStatus>1</userStatus>\r\n</user>",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "User"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "successful operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n \"id\": 10.0,\r\n \"username\": \"theUser\",\r\n \"firstName\": \"John\",\r\n \"lastName\": \"James\",\r\n \"email\": \"john@email.com\",\r\n \"password\": \"12345\",\r\n \"phone\": \"12345\",\r\n \"userStatus\": 1\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "User"
+              },
+              {
+                "contentType": "application/xml",
+                "sample": "<user>\r\n <id>10</id>\r\n <username>theUser</username>\r\n <firstName>John</firstName>\r\n <lastName>James</lastName>\r\n <email>john@email.com</email>\r\n <password>12345</password>\r\n <phone>12345</phone>\r\n <userStatus>1</userStatus>\r\n</user>",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "User"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "successful operation",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n \"id\": 10.0,\r\n \"username\": \"theUser\",\r\n \"firstName\": \"John\",\r\n \"lastName\": \"James\",\r\n \"email\": \"john@email.com\",\r\n \"password\": \"12345\",\r\n \"phone\": \"12345\",\r\n \"userStatus\": 1\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "User"
+              },
+              {
+                "contentType": "application/xml",
+                "sample": "<user>\r\n <id>10</id>\r\n <username>theUser</username>\r\n <firstName>John</firstName>\r\n <lastName>James</lastName>\r\n <email>john@email.com</email>\r\n <password>12345</password>\r\n <phone>12345</phone>\r\n <userStatus>1</userStatus>\r\n</user>",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "User"
               }
             ]
           }
@@ -155,7 +787,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -172,86 +804,50 @@
     {
       "properties": {
         "templateParameters": [],
-        "description": "",
+        "description": "Creates list of users with given input array",
         "request": {
-          "description": "List of user object",
           "queryParameters": [],
           "headers": [],
           "representations": [
             {
               "contentType": "application/json",
-              "schemaId": "60a34871217d201190c0951c",
-              "typeName": "UserArray"
+              "sample": "[[\r\n {\r\n \"id\": 10.0,\r\n \"username\": \"theUser\",\r\n \"firstName\": \"John\",\r\n \"lastName\": \"James\",\r\n \"email\": \"john@email.com\",\r\n \"password\": \"12345\",\r\n \"phone\": \"12345\",\r\n \"userStatus\": 1\r\n }\r\n]",
+              "schemaId": "60b976d395edba36988ceda2",
+              "typeName": "UserCreateWithListPostRequest"
             }
           ]
         },
         "responses": [
           {
             "statusCode": 200,
-            "description": "successful operation",
+            "description": "Successful operation",
             "headers": [],
             "representations": [
               {
-                "contentType": "application/json"
+                "contentType": "application/xml",
+                "sample": "<user>\r\n <id>10</id>\r\n <username>theUser</username>\r\n <firstName>John</firstName>\r\n <lastName>James</lastName>\r\n <email>john@email.com</email>\r\n <password>12345</password>\r\n <phone>12345</phone>\r\n <userStatus>1</userStatus>\r\n</user>",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "User"
               },
               {
-                "contentType": "application/xml"
+                "contentType": "application/json",
+                "sample": "{\r\n \"id\": 10.0,\r\n \"username\": \"theUser\",\r\n \"firstName\": \"John\",\r\n \"lastName\": \"James\",\r\n \"email\": \"john@email.com\",\r\n \"password\": \"12345\",\r\n \"phone\": \"12345\",\r\n \"userStatus\": 1\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "User"
               }
             ]
-          }
-        ],
-        "displayName": "Creates list of users with given input array",
-        "method": "POST",
-        "urlTemplate": "/user/createWithArray"
-      },
-      "name": "[concat(parameters('ApimServiceName'), '/petstore/createUsersWithArrayInput')]",
-      "type": "Microsoft.ApiManagement/service/apis/operations",
-      "apiVersion": "2019-01-01",
-      "dependsOn": [
-        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
-      ]
-    },
-    {
-      "properties": {
-        "displayName": "user"
-      },
-      "name": "[concat(parameters('ApimServiceName'), '/petstore/createUsersWithArrayInput/user')]",
-      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
-      "apiVersion": "2019-01-01",
-      "dependsOn": [
-        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'petstore', 'createUsersWithArrayInput')]"
-      ]
-    },
-    {
-      "properties": {
-        "templateParameters": [],
-        "description": "",
-        "request": {
-          "description": "List of user object",
-          "queryParameters": [],
-          "headers": [],
-          "representations": [
-            {
-              "contentType": "application/json",
-              "schemaId": "60a34871217d201190c0951c",
-              "typeName": "UserArray"
-            }
-          ]
-        },
-        "responses": [
+          },
           {
-            "statusCode": 200,
+            "statusCode": 400,
             "description": "successful operation",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
+          },
+          {
+            "statusCode": 500,
+            "description": "successful operation",
+            "headers": [],
+            "representations": []
           }
         ],
         "displayName": "Creates list of users with given input array",
@@ -263,7 +859,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -288,7 +884,7 @@
             "values": []
           }
         ],
-        "description": "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors",
+        "description": "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
         "request": {
           "queryParameters": [],
           "headers": [],
@@ -299,27 +895,13 @@
             "statusCode": 400,
             "description": "Invalid ID supplied",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           },
           {
             "statusCode": 404,
             "description": "Order not found",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Delete purchase order by ID",
@@ -366,27 +948,13 @@
             "statusCode": 400,
             "description": "Invalid username supplied",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           },
           {
             "statusCode": 404,
             "description": "User not found",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Delete user",
@@ -428,6 +996,7 @@
           "headers": [
             {
               "name": "api_key",
+              "description": "",
               "type": "string",
               "required": false,
               "values": []
@@ -438,29 +1007,9 @@
         "responses": [
           {
             "statusCode": 400,
-            "description": "Invalid ID supplied",
+            "description": "Invalid pet value",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
-          },
-          {
-            "statusCode": 404,
-            "description": "Pet not found",
-            "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Deletes a pet",
@@ -509,14 +1058,16 @@
             "headers": [],
             "representations": [
               {
-                "contentType": "application/json",
-                "schemaId": "60a34871217d201190c0951c",
-                "typeName": "Pet"
+                "contentType": "application/xml",
+                "sample": "<pet>\r\n <id>10</id>\r\n <name>doggie</name>\r\n <category>\r\n <id>1</id>\r\n <name>Dogs</name>\r\n </category>\r\n <photoUrls>\r\n <photoUrl>string</photoUrl>\r\n </photoUrls>\r\n <tags>\r\n <tag>\r\n <id>0</id>\r\n <name>string</name>\r\n </tag>\r\n </tags>\r\n <status>available</status>\r\n</pet>",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "PetRequest-xml"
               },
               {
-                "contentType": "application/xml",
-                "schemaId": "60a34871217d201190c0951c",
-                "typeName": "Pet"
+                "contentType": "application/json",
+                "sample": "{\r\n \"id\": 10.0,\r\n \"name\": \"doggie\",\r\n \"category\": {\r\n \"id\": 1.0,\r\n \"name\": \"Dogs\"\r\n },\r\n \"photoUrls\": [\r\n \"string\"\r\n ],\r\n \"tags\": [\r\n {\r\n \"id\": 0,\r\n \"name\": \"string\"\r\n }\r\n ],\r\n \"status\": \"available\"\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "PetRequest-xml"
               }
             ]
           },
@@ -524,27 +1075,13 @@
             "statusCode": 400,
             "description": "Invalid ID supplied",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           },
           {
             "statusCode": 404,
             "description": "Pet not found",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Find pet by ID",
@@ -556,7 +1093,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -575,13 +1112,13 @@
         "templateParameters": [
           {
             "name": "orderId",
-            "description": "Format - int64. ID of pet that needs to be fetched",
+            "description": "Format - int64. ID of order that needs to be fetched",
             "type": "integer",
             "required": true,
             "values": []
           }
         ],
-        "description": "For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions",
+        "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
         "request": {
           "queryParameters": [],
           "headers": [],
@@ -594,13 +1131,15 @@
             "headers": [],
             "representations": [
               {
-                "contentType": "application/json",
-                "schemaId": "60a34871217d201190c0951c",
+                "contentType": "application/xml",
+                "sample": "<order>\r\n <id>10</id>\r\n <petId>198772</petId>\r\n <quantity>7</quantity>\r\n <shipDate>string</shipDate>\r\n <status>approved</status>\r\n <complete>true</complete>\r\n</order>",
+                "schemaId": "60b976d395edba36988ceda2",
                 "typeName": "Order"
               },
               {
-                "contentType": "application/xml",
-                "schemaId": "60a34871217d201190c0951c",
+                "contentType": "application/json",
+                "sample": "{\r\n \"id\": 10.0,\r\n \"petId\": 198772.0,\r\n \"quantity\": 7,\r\n \"shipDate\": \"string\",\r\n \"status\": \"approved\",\r\n \"complete\": true\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
                 "typeName": "Order"
               }
             ]
@@ -609,27 +1148,13 @@
             "statusCode": 400,
             "description": "Invalid ID supplied",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           },
           {
             "statusCode": 404,
             "description": "Order not found",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Find purchase order by ID",
@@ -641,7 +1166,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -657,18 +1182,23 @@
     },
     {
       "properties": {
-        "templateParameters": [
-          {
-            "name": "status",
-            "description": "Status values that need to be considered for filter",
-            "type": "array",
-            "required": true,
-            "values": []
-          }
-        ],
+        "templateParameters": [],
         "description": "Multiple status values can be provided with comma separated strings",
         "request": {
-          "queryParameters": [],
+          "queryParameters": [
+            {
+              "name": "status",
+              "description": "Status values that need to be considered for filter",
+              "type": "string",
+              "defaultValue": "available",
+              "required": false,
+              "values": [
+                "available",
+                "pending",
+                "sold"
+              ]
+            }
+          ],
           "headers": [],
           "representations": []
         },
@@ -679,14 +1209,16 @@
             "headers": [],
             "representations": [
               {
-                "contentType": "application/json",
-                "schemaId": "60a34871217d201190c0951c",
-                "typeName": "PetArray"
+                "contentType": "application/xml",
+                "sample": "<pet>\r\n <id>10</id>\r\n <name>doggie</name>\r\n <category>\r\n <id>1</id>\r\n <name>Dogs</name>\r\n </category>\r\n <photoUrls>\r\n <photoUrl>string</photoUrl>\r\n </photoUrls>\r\n <tags>\r\n <tag>\r\n <id>0</id>\r\n <name>string</name>\r\n </tag>\r\n </tags>\r\n <status>available</status>\r\n</pet>",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "PetFindByStatusGet200ApplicationXmlResponse"
               },
               {
-                "contentType": "application/xml",
-                "schemaId": "60a34871217d201190c0951c",
-                "typeName": "PetArray"
+                "contentType": "application/json",
+                "sample": "[[\r\n {\r\n \"id\": 10.0,\r\n \"name\": \"doggie\",\r\n \"category\": {\r\n \"id\": 1.0,\r\n \"name\": \"Dogs\"\r\n },\r\n \"photoUrls\": [\r\n \"string\"\r\n ],\r\n \"tags\": [\r\n {\r\n \"id\": 0,\r\n \"name\": \"string\"\r\n }\r\n ],\r\n \"status\": \"available\"\r\n }\r\n]",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "PetFindByStatusGet200ApplicationJsonResponse"
               }
             ]
           },
@@ -694,26 +1226,19 @@
             "statusCode": 400,
             "description": "Invalid status value",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Finds Pets by status",
         "method": "GET",
-        "urlTemplate": "/pet/findByStatus?status={status}"
+        "urlTemplate": "/pet/findByStatus"
       },
       "name": "[concat(parameters('ApimServiceName'), '/petstore/findPetsByStatus')]",
       "type": "Microsoft.ApiManagement/service/apis/operations",
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -729,18 +1254,18 @@
     },
     {
       "properties": {
-        "templateParameters": [
-          {
-            "name": "tags",
-            "description": "Tags to filter by",
-            "type": "array",
-            "required": true,
-            "values": []
-          }
-        ],
+        "templateParameters": [],
         "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
         "request": {
-          "queryParameters": [],
+          "queryParameters": [
+            {
+              "name": "tags",
+              "description": "Tags to filter by",
+              "type": "array",
+              "required": false,
+              "values": []
+            }
+          ],
           "headers": [],
           "representations": []
         },
@@ -751,14 +1276,16 @@
             "headers": [],
             "representations": [
               {
-                "contentType": "application/json",
-                "schemaId": "60a34871217d201190c0951c",
-                "typeName": "PetArray"
+                "contentType": "application/xml",
+                "sample": "<pet>\r\n <id>10</id>\r\n <name>doggie</name>\r\n <category>\r\n <id>1</id>\r\n <name>Dogs</name>\r\n </category>\r\n <photoUrls>\r\n <photoUrl>string</photoUrl>\r\n </photoUrls>\r\n <tags>\r\n <tag>\r\n <id>0</id>\r\n <name>string</name>\r\n </tag>\r\n </tags>\r\n <status>available</status>\r\n</pet>",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "PetFindByTagsGet200ApplicationXmlResponse"
               },
               {
-                "contentType": "application/xml",
-                "schemaId": "60a34871217d201190c0951c",
-                "typeName": "PetArray"
+                "contentType": "application/json",
+                "sample": "[[\r\n {\r\n \"id\": 10.0,\r\n \"name\": \"doggie\",\r\n \"category\": {\r\n \"id\": 1.0,\r\n \"name\": \"Dogs\"\r\n },\r\n \"photoUrls\": [\r\n \"string\"\r\n ],\r\n \"tags\": [\r\n {\r\n \"id\": 0,\r\n \"name\": \"string\"\r\n }\r\n ],\r\n \"status\": \"available\"\r\n }\r\n]",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "PetFindByTagsGet200ApplicationJsonResponse"
               }
             ]
           },
@@ -766,26 +1293,19 @@
             "statusCode": 400,
             "description": "Invalid tag value",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Finds Pets by tags",
         "method": "GET",
-        "urlTemplate": "/pet/findByTags?tags={tags}"
+        "urlTemplate": "/pet/findByTags"
       },
       "name": "[concat(parameters('ApimServiceName'), '/petstore/findPetsByTags')]",
       "type": "Microsoft.ApiManagement/service/apis/operations",
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -823,13 +1343,15 @@
             "headers": [],
             "representations": [
               {
-                "contentType": "application/json",
-                "schemaId": "60a34871217d201190c0951c",
+                "contentType": "application/xml",
+                "sample": "<user>\r\n <id>10</id>\r\n <username>theUser</username>\r\n <firstName>John</firstName>\r\n <lastName>James</lastName>\r\n <email>john@email.com</email>\r\n <password>12345</password>\r\n <phone>12345</phone>\r\n <userStatus>1</userStatus>\r\n</user>",
+                "schemaId": "60b976d395edba36988ceda2",
                 "typeName": "User"
               },
               {
-                "contentType": "application/xml",
-                "schemaId": "60a34871217d201190c0951c",
+                "contentType": "application/json",
+                "sample": "{\r\n \"id\": 10.0,\r\n \"username\": \"theUser\",\r\n \"firstName\": \"John\",\r\n \"lastName\": \"James\",\r\n \"email\": \"john@email.com\",\r\n \"password\": \"12345\",\r\n \"phone\": \"12345\",\r\n \"userStatus\": 1\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
                 "typeName": "User"
               }
             ]
@@ -838,27 +1360,13 @@
             "statusCode": 400,
             "description": "Invalid username supplied",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           },
           {
             "statusCode": 404,
             "description": "User not found",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Get user by user name",
@@ -870,7 +1378,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -898,14 +1406,19 @@
             "statusCode": 200,
             "description": "successful operation",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
+          },
+          {
+            "statusCode": 400,
+            "description": "successful operation",
+            "headers": [],
+            "representations": []
+          },
+          {
+            "statusCode": 500,
+            "description": "successful operation",
+            "headers": [],
+            "representations": []
           }
         ],
         "displayName": "Logs out current logged in user session",
@@ -932,25 +1445,25 @@
     },
     {
       "properties": {
-        "templateParameters": [
-          {
-            "name": "username",
-            "description": "The user name for login",
-            "type": "string",
-            "required": true,
-            "values": []
-          },
-          {
-            "name": "password",
-            "description": "The password for login in clear text",
-            "type": "string",
-            "required": true,
-            "values": []
-          }
-        ],
+        "templateParameters": [],
         "description": "",
         "request": {
-          "queryParameters": [],
+          "queryParameters": [
+            {
+              "name": "username",
+              "description": "The user name for login",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "password",
+              "description": "The password for login in clear text",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
           "headers": [],
           "representations": []
         },
@@ -960,30 +1473,32 @@
             "description": "successful operation",
             "headers": [
               {
-                "name": "X-Expires-After",
-                "description": "date in UTC when token expires",
-                "type": "string",
+                "name": "X-Rate-Limit",
+                "description": "calls per hour allowed by the user",
+                "type": "integer",
                 "required": false,
                 "values": []
               },
               {
-                "name": "X-Rate-Limit",
-                "description": "calls per hour allowed by the user",
-                "type": "integer",
+                "name": "X-Expires-After",
+                "description": "date in UTC when toekn expires",
+                "type": "string",
                 "required": false,
                 "values": []
               }
             ],
             "representations": [
               {
-                "contentType": "application/json",
-                "schemaId": "60a34871217d201190c0951c",
-                "typeName": "UserLoginGet200ApplicationJsonResponse"
+                "contentType": "application/xml",
+                "sample": "<UserLoginGet200ApplicationXmlResponse>string</UserLoginGet200ApplicationXmlResponse>",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "UserLoginGet200ApplicationXmlResponse"
               },
               {
-                "contentType": "application/xml",
-                "schemaId": "60a34871217d201190c0951c",
-                "typeName": "UserLoginGet200ApplicationXmlResponse"
+                "contentType": "application/json",
+                "sample": "string",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "UserLoginGet200ApplicationJsonResponse"
               }
             ]
           },
@@ -991,26 +1506,19 @@
             "statusCode": 400,
             "description": "Invalid username/password supplied",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Logs user into the system",
         "method": "GET",
-        "urlTemplate": "/user/login?username={username}&password={password}"
+        "urlTemplate": "/user/login"
       },
       "name": "[concat(parameters('ApimServiceName'), '/petstore/loginUser')]",
       "type": "Microsoft.ApiManagement/service/apis/operations",
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -1027,16 +1535,67 @@
     {
       "properties": {
         "templateParameters": [],
-        "description": "",
+        "description": "Place a new order in the store",
         "request": {
-          "description": "order placed for purchasing the pet",
           "queryParameters": [],
           "headers": [],
           "representations": [
             {
               "contentType": "application/json",
-              "schemaId": "60a34871217d201190c0951c",
+              "sample": "{\r\n \"id\": 10.0,\r\n \"petId\": 198772.0,\r\n \"quantity\": 7,\r\n \"shipDate\": \"string\",\r\n \"status\": \"approved\",\r\n \"complete\": true\r\n}",
+              "schemaId": "60b976d395edba36988ceda2",
               "typeName": "Order"
+            },
+            {
+              "contentType": "application/xml",
+              "sample": "<order>\r\n <id>10</id>\r\n <petId>198772</petId>\r\n <quantity>7</quantity>\r\n <shipDate>string</shipDate>\r\n <status>approved</status>\r\n <complete>true</complete>\r\n</order>",
+              "schemaId": "60b976d395edba36988ceda2",
+              "typeName": "Order"
+            },
+            {
+              "contentType": "application/x-www-form-urlencoded",
+              "formParameters": [
+                {
+                  "name": "id",
+                  "type": "integer",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "petId",
+                  "type": "integer",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "quantity",
+                  "type": "integer",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "shipDate",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "status",
+                  "type": "string",
+                  "required": false,
+                  "values": [
+                    "placed",
+                    "approved",
+                    "delivered"
+                  ]
+                },
+                {
+                  "name": "complete",
+                  "type": "boolean",
+                  "required": false,
+                  "values": []
+                }
+              ]
             }
           ]
         },
@@ -1048,28 +1607,17 @@
             "representations": [
               {
                 "contentType": "application/json",
-                "schemaId": "60a34871217d201190c0951c",
-                "typeName": "Order"
-              },
-              {
-                "contentType": "application/xml",
-                "schemaId": "60a34871217d201190c0951c",
+                "sample": "{\r\n \"id\": 10.0,\r\n \"petId\": 198772.0,\r\n \"quantity\": 7,\r\n \"shipDate\": \"string\",\r\n \"status\": \"approved\",\r\n \"complete\": true\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
                 "typeName": "Order"
               }
             ]
           },
           {
-            "statusCode": 400,
-            "description": "Invalid Order",
+            "statusCode": 405,
+            "description": "Invalid input",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Place an order for a pet",
@@ -1081,7 +1629,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -1112,7 +1660,8 @@
             "representations": [
               {
                 "contentType": "application/json",
-                "schemaId": "60a34871217d201190c0951c",
+                "sample": "{}",
+                "schemaId": "60b976d395edba36988ceda2",
                 "typeName": "StoreInventoryGet200ApplicationJsonResponse"
               }
             ]
@@ -1127,7 +1676,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -1144,63 +1693,108 @@
     {
       "properties": {
         "templateParameters": [],
-        "description": "",
+        "description": "Update an existing pet by Id",
         "request": {
-          "description": "Pet object that needs to be added to the store",
+          "description": "Update an existent pet in the store",
           "queryParameters": [],
           "headers": [],
           "representations": [
             {
               "contentType": "application/json",
-              "schemaId": "60a34871217d201190c0951c",
-              "typeName": "Pet"
+              "sample": "{\r\n \"id\": 10.0,\r\n \"name\": \"doggie\",\r\n \"category\": {\r\n \"id\": 1.0,\r\n \"name\": \"Dogs\"\r\n },\r\n \"photoUrls\": [\r\n \"string\"\r\n ],\r\n \"tags\": [\r\n {\r\n \"id\": 0,\r\n \"name\": \"string\"\r\n }\r\n ],\r\n \"status\": \"available\"\r\n}",
+              "schemaId": "60b976d395edba36988ceda2",
+              "typeName": "PetRequest-xml"
             },
             {
               "contentType": "application/xml",
-              "schemaId": "60a34871217d201190c0951c",
-              "typeName": "Pet"
+              "sample": "<pet>\r\n <id>10</id>\r\n <name>doggie</name>\r\n <category>\r\n <id>1</id>\r\n <name>Dogs</name>\r\n </category>\r\n <photoUrls>\r\n <photoUrl>string</photoUrl>\r\n </photoUrls>\r\n <tags>\r\n <tag>\r\n <id>0</id>\r\n <name>string</name>\r\n </tag>\r\n </tags>\r\n <status>available</status>\r\n</pet>",
+              "schemaId": "60b976d395edba36988ceda2",
+              "typeName": "PetRequest-xml"
+            },
+            {
+              "contentType": "application/x-www-form-urlencoded",
+              "formParameters": [
+                {
+                  "name": "id",
+                  "type": "integer",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "name",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "category",
+                  "type": "object",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "photoUrls",
+                  "type": "array",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "tags",
+                  "type": "array",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "status",
+                  "type": "string",
+                  "required": false,
+                  "values": [
+                    "available",
+                    "pending",
+                    "sold"
+                  ]
+                }
+              ]
             }
           ]
         },
         "responses": [
           {
-            "statusCode": 400,
-            "description": "Invalid ID supplied",
+            "statusCode": 200,
+            "description": "Successful operation",
             "headers": [],
             "representations": [
               {
-                "contentType": "application/json"
+                "contentType": "application/xml",
+                "sample": "<pet>\r\n <id>10</id>\r\n <name>doggie</name>\r\n <category>\r\n <id>1</id>\r\n <name>Dogs</name>\r\n </category>\r\n <photoUrls>\r\n <photoUrl>string</photoUrl>\r\n </photoUrls>\r\n <tags>\r\n <tag>\r\n <id>0</id>\r\n <name>string</name>\r\n </tag>\r\n </tags>\r\n <status>available</status>\r\n</pet>",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "PetRequest-xml"
               },
               {
-                "contentType": "application/xml"
+                "contentType": "application/json",
+                "sample": "{\r\n \"id\": 10.0,\r\n \"name\": \"doggie\",\r\n \"category\": {\r\n \"id\": 1.0,\r\n \"name\": \"Dogs\"\r\n },\r\n \"photoUrls\": [\r\n \"string\"\r\n ],\r\n \"tags\": [\r\n {\r\n \"id\": 0,\r\n \"name\": \"string\"\r\n }\r\n ],\r\n \"status\": \"available\"\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
+                "typeName": "PetRequest-xml"
               }
             ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid ID supplied",
+            "headers": [],
+            "representations": []
           },
           {
             "statusCode": 404,
             "description": "Pet not found",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           },
           {
             "statusCode": 405,
             "description": "Validation exception",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Update an existing pet",
@@ -1212,7 +1806,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -1231,7 +1825,7 @@
         "templateParameters": [
           {
             "name": "username",
-            "description": "name that need to be updated",
+            "description": "name that need to be deleted",
             "type": "string",
             "required": true,
             "values": []
@@ -1239,46 +1833,98 @@
         ],
         "description": "This can only be done by the logged in user.",
         "request": {
-          "description": "Updated user object",
+          "description": "Update an existent user in the store",
           "queryParameters": [],
           "headers": [],
           "representations": [
             {
               "contentType": "application/json",
-              "schemaId": "60a34871217d201190c0951c",
+              "sample": "{\r\n \"id\": 10.0,\r\n \"username\": \"theUser\",\r\n \"firstName\": \"John\",\r\n \"lastName\": \"James\",\r\n \"email\": \"john@email.com\",\r\n \"password\": \"12345\",\r\n \"phone\": \"12345\",\r\n \"userStatus\": 1\r\n}",
+              "schemaId": "60b976d395edba36988ceda2",
               "typeName": "User"
+            },
+            {
+              "contentType": "application/xml",
+              "sample": "<user>\r\n <id>10</id>\r\n <username>theUser</username>\r\n <firstName>John</firstName>\r\n <lastName>James</lastName>\r\n <email>john@email.com</email>\r\n <password>12345</password>\r\n <phone>12345</phone>\r\n <userStatus>1</userStatus>\r\n</user>",
+              "schemaId": "60b976d395edba36988ceda2",
+              "typeName": "User"
+            },
+            {
+              "contentType": "application/x-www-form-urlencoded",
+              "formParameters": [
+                {
+                  "name": "id",
+                  "type": "integer",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "username",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "firstName",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "lastName",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "email",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "password",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "phone",
+                  "type": "string",
+                  "required": false,
+                  "values": []
+                },
+                {
+                  "name": "userStatus",
+                  "type": "integer",
+                  "required": false,
+                  "values": []
+                }
+              ]
             }
           ]
         },
         "responses": [
           {
-            "statusCode": 400,
-            "description": "Invalid user supplied",
+            "statusCode": 200,
+            "description": "successful operation",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           },
           {
-            "statusCode": 404,
-            "description": "User not found",
+            "statusCode": 400,
+            "description": "successful operation",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
+          },
+          {
+            "statusCode": 500,
+            "description": "successful operation",
+            "headers": [],
+            "representations": []
           }
         ],
-        "displayName": "Updated user",
+        "displayName": "Update user",
         "method": "PUT",
         "urlTemplate": "/user/{username}"
       },
@@ -1287,7 +1933,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -1314,43 +1960,31 @@
         ],
         "description": "",
         "request": {
-          "queryParameters": [],
-          "headers": [],
-          "representations": [
+          "queryParameters": [
             {
-              "contentType": "application/x-www-form-urlencoded",
-              "formParameters": [
-                {
-                  "name": "name",
-                  "description": "Updated name of the pet",
-                  "type": "string",
-                  "required": false,
-                  "values": []
-                },
-                {
-                  "name": "status",
-                  "description": "Updated status of the pet",
-                  "type": "string",
-                  "required": false,
-                  "values": []
-                }
-              ]
+              "name": "name",
+              "description": "Name of pet that needs to be updated",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "status",
+              "description": "Status of pet that needs to be updated",
+              "type": "string",
+              "required": false,
+              "values": []
             }
-          ]
+          ],
+          "headers": [],
+          "representations": []
         },
         "responses": [
           {
             "statusCode": 405,
             "description": "Invalid input",
             "headers": [],
-            "representations": [
-              {
-                "contentType": "application/json"
-              },
-              {
-                "contentType": "application/xml"
-              }
-            ]
+            "representations": []
           }
         ],
         "displayName": "Updates a pet in the store with form data",
@@ -1388,27 +2022,21 @@
         ],
         "description": "",
         "request": {
-          "queryParameters": [],
+          "queryParameters": [
+            {
+              "name": "additionalMetadata",
+              "description": "Additional Metadata",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
           "headers": [],
           "representations": [
             {
-              "contentType": "multipart/form-data",
-              "formParameters": [
-                {
-                  "name": "additionalMetadata",
-                  "description": "Additional data to pass to server",
-                  "type": "string",
-                  "required": false,
-                  "values": []
-                },
-                {
-                  "name": "file",
-                  "description": "file to upload",
-                  "type": "file",
-                  "required": false,
-                  "values": []
-                }
-              ]
+              "contentType": "application/octet-stream",
+              "schemaId": "60b976d395edba36988ceda2",
+              "typeName": "Pet-petId-UploadImagePostRequest-2"
             }
           ]
         },
@@ -1420,7 +2048,8 @@
             "representations": [
               {
                 "contentType": "application/json",
-                "schemaId": "60a34871217d201190c0951c",
+                "sample": "{\r\n \"code\": 0,\r\n \"type\": \"string\",\r\n \"message\": \"string\"\r\n}",
+                "schemaId": "60b976d395edba36988ceda2",
                 "typeName": "ApiResponse"
               }
             ]
@@ -1435,7 +2064,7 @@
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]",
-        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60a34871217d201190c0951c')]"
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'petstore', '60b976d395edba36988ceda2')]"
       ]
     },
     {
@@ -1462,9 +2091,33 @@
       ]
     },
     {
-      "properties": {},
-      "name": "[concat(parameters('ApimServiceName'), '/petstore/petstore')]",
-      "type": "Microsoft.ApiManagement/service/products/apis",
+      "properties": {
+        "displayName": "cats"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/petstore/cats')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "dogs"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/petstore/dogs')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "pets"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/petstore/pets')]",
+      "type": "Microsoft.ApiManagement/service/apis/tags",
       "apiVersion": "2019-01-01",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'petstore')]"

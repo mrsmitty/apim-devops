@@ -1,0 +1,22 @@
+trigger: none
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: mrsmitty/apim-devops
+      ref: refs/heads/users/ps/extends
+      endpoint: Integration
+
+variables:
+  apiName: Petstore
+  devParamFile: Petstore-parameters.dev.json
+  sitParamFile: Petstore-parameters.sit.json
+
+extends:
+  template: pipeline/templates/stage-apim-api-deploy.yaml@templates
+  parameters:
+    devParameterFileName: $(devParamFile)
+    sitParameterFileName: $(sitParamFile)
+    apiName: $(apiName)
+    templatePath: $(apiName)-$(Build.BuildId)

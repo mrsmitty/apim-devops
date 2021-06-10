@@ -3,20 +3,18 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "ApimServiceName": {
-      "value": "PWS-SYD-APIM-DEVCICD"
+      "value": "WAR-MOCK-APIM"
     },
     "PolicyXMLBaseUrl": {
       "value": "https://dummy.blob.core.windows.net/"
     },
     "serviceUrl": {
       "value": {
-        "Petstore": "https://petstore.swagger.io/v2"
+        "Petstore": null
       }
     },
     "NamedValues": {
-      "value": {
-        "apikey": "special-key"
-      }
+      "value": {}
     }
   },
   "resources": []

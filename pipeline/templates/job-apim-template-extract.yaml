@@ -1,0 +1,68 @@
+parameters:
+- name: apiName
+  displayName: API Name
+  type: string
+- name: targetTemplatePath
+  displayName: Relative repo path to create the API folder and template files
+  type: string
+- name: azSubscription
+  displayName: Azure Service Connection
+  type: string
+- name: sourceApim
+  type: string
+  default: PWS-SYD-APIM-DEV-CICD
+- name: sourceApimResourceGroup
+  type: string
+  default: PWS-SYD-ARG-CICD
+
+resources:
+  repositories:
+    - repository: tools
+      type: github
+      name: mrsmitty/apim-devops
+      ref: refs/heads/users/ps/extends
+      endpoint: Integration
+
+jobs:
+- job: extractApim
+  displayName: Extract APIM Template
+  pool:
+    vmImage: ubuntu-latest
+  variables:
+    - name: SOURCE_APIM
+      value: ${{ parameters.sourceApim }}
+    - name: DEST_APIM
+      value: WAR-MOCK-APIM
+    - name: API_NAME
+      value: ${{ parameters.apiName }}
+    - name: RESOURCE_GROUP
+      value: ${{ parameters.sourceApimResourceGroup }}
+    - name: TEMPLATE_DIRECTORY
+      value: $(Pipeline.Workspace)/api/${{ parameters.targetTemplatePath }}/${{ parameters.apiName }}
+    - name: SOURCE_BRANCH
+      value: $(Build.SourceBranch)
+    - name: TEMPLATEREPO_DIRECTORY
+      value: $(Pipeline.Workspace)/api
+
+  steps:
+  - checkout: tools
+    path: tools
+
+  - checkout: self
+    path: api
+    persistCredentials: true
+
+  - bash: |
+      echo "BUILD_SOURCESDIRECTORY: ${BUILD_SOURCESDIRECTORY}"
+      echo "PIPELINE_WORKSPACE: ${PIPELINE_WORKSPACE}"
+      if [ -d "${PIPELINE_WORKSPACE}/api" ]; then echo "API Templates Path: ${PIPELINE_WORKSPACE}/api"; fi
+      if [ -d "${BUILD_SOURCESDIRECTORY}/apim-devops" ]; then echo "${BUILD_SOURCESDIRECTORY}/s/apim-devops"; fi
+
+
+  - task: AzureCLI@2
+    displayName: AZ CLI - Extract APIM Template
+    inputs:
+      azureSubscription: ${{ parameters.azSubscription }}
+      scriptType: bash
+      scriptLocation: scriptPath
+      scriptPath: $(Pipeline.Workspace)/tools/pipeline/scripts/apim-template-extract.sh

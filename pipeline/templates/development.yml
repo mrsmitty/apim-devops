@@ -1,0 +1,11 @@
+variables:
+- name: apimName
+  value: PWS-SYD-APIM-DEV-CICD
+- name:  resourceGroupName
+  value: PWS-SYD-ARG-CICD
+- name: storageName
+  value: pwssydstacicd
+- name: containerName
+  value: templatedeployment
+- name: azSubscription
+  value: sp-apim-ado

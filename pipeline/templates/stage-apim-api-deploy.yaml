@@ -1,75 +1,59 @@
 parameters:
-  - name: name
-    type: string
-  - name: apimName
-    displayName: Destination APIM Name
-    type: string
-  - name: apimResourceGroupName
-    displayName: Destination APIM Resource Group
-    type: string
   - name: apiName
     displayName: Target API Name (case sensitive)
-    type: string
-  - name: storageAccountName
-    displayName: Storage Account ARM Templates
-    type: string
-  - name: storageAccountResourceGroupName
-    displayName: Storage Account Resource Group
-    type: string
-  - name: containerName
-    displayName: Storage Account Container ARM Tempaltes
     type: string
   - name: templatePath
     displayName: Storage Account relative template path
     type: string
-  - name: parameterFileName
+  - name: devParameterFileName
     displayName: ARM Template Parameter filename
     type: string
-  - name: azSubscription
+  - name: sitParameterFileName
+    displayName: ARM Template Parameter filename
     type: string
-  - name: dependsOn
-    type: string
-    default:
 
-stages:    
-- stage: ${{ parameters.name }}
-  dependsOn: ${{ parameters.dependsOn }}
-  displayName : ${{ parameters.name }}
+resources:
+  repositories:
+    - repository: tools
+      type: github
+      name: mrsmitty/apim-devops
+      ref: refs/heads/users/ps/extends
+      endpoint: Integration
+
+stages:
+- stage: staging
+  displayName: Stage Scripts and Templates
   jobs:
-  - deployment: deployApim
-    environment: ${{ parameters.apiName }}-${{ parameters.name }}
-    displayName: Deploy APIM Template
+  - job: stageArmTemplates
     pool:
-      vmImage: ubuntu-16.04
-    variables:
-      - name: APIM_NAME
-        value: ${{ parameters.apimName }}
-      - name: APIM_RESOURCE_GROUP
-        value: ${{ parameters.apimResourceGroupName }}
-      - name: API_NAME
-        value: ${{ parameters.apiName }}
-      - name: STORAGE_ACCOUNT
-        value: ${{ parameters.storageAccountName }}
-      - name: STORAGE_RESOURCE_GROUP
-        value: ${{ parameters.storageAccountResourceGroupName }}
-      - name: CONTAINER
-        value: ${{ parameters.containerName }}
-      - name: REMOTE_TEMPLATE_PATH
-        value: ${{ parameters.templatePath }}
-      - name: LOCAL_TEMPLATE_DIRECTORY
-        value: $(Pipeline.Workspace)/Templates
-      - name: PARAMETER_FILE_NAME
-        value: ${{ parameters.parameterFileName }}
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: current
-          
-          - task: AzureCLI@2
-            displayName: Azure CLI - Deploy APIM Template
-            inputs:
-              azureSubscription: ${{ parameters.azSubscription }}
-              scriptType: bash
-              scriptLocation: scriptPath
-              scriptPath: $(Pipeline.Workspace)/Scripts/apim-api-deploy.sh
+      vmImage: ubuntu-latest
+    steps:
+    - publish: $(Build.SourcesDirectory)/pipeline/scripts/
+      artifact: Scripts
+    - publish: $(Build.SourcesDirectory)/api/${{ parameters.apiName }}
+      artifact: Templates
+
+- stage: development
+  dependsOn: staging
+  displayName: development
+  jobs:
+  - template: pipeline/templates/job-apim-api-deploy.yml@tools
+    parameters:
+      environment: development
+      apiName: ${{ parameters.apiName }}
+      parameterFileName: ${{ parameters.devParameterFileName }}
+      templatePath: ${{ parameters.templatePath }}
+      jobVariablesPath: development.yml@tools
+
+- stage: systemtesting
+  dependsOn: development
+  displayName : System Testing
+  jobs:
+  - template: pipeline/templates/job-apim-api-deploy.yml@tools
+    parameters:
+      environment: systemtesting
+      apiName: ${{ parameters.apiName }}
+      parameterFileName: ${{ parameters.sitParameterFileName }}
+      templatePath: ${{ parameters.templatePath }}
+      jobVariablesPath: systemtesting.yml@tools
+  

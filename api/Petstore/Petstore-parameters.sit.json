@@ -3,20 +3,18 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "ApimServiceName": {
-      "value": "PWS-SYD-APIM-DEVCICD"
+      "value": "PWS-SYD-APIM-TST-CICD"
     },
     "PolicyXMLBaseUrl": {
       "value": "https://dummy.blob.core.windows.net/"
     },
     "serviceUrl": {
       "value": {
-        "PetStoreV3": null
+        "Petstore": "https://broken.swagger.io/api/v3/"
       }
     },
     "NamedValues": {
-      "value": {
-        "apikey": "special-key"
-      }
+      "value": {}
     }
   },
   "resources": []
